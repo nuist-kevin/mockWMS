@@ -10,7 +10,7 @@ public class DeliveryStatusMessage {
     private final String businessType = "WMS2OSS_DELIVERY_SYN";
     private String carrierService;
     private String companyCode;
-    private Integer micComId;
+    private Long micComId;
     private String operatorName = "liangbiao";
     private Integer operatorNo = 39;
     private final Date operatorTime = new Date();
@@ -39,7 +39,7 @@ public class DeliveryStatusMessage {
         this.companyCode = companyCode;
     }
 
-    public Integer getMicComId() {
+    public Long getMicComId() {
         return micComId;
     }
 

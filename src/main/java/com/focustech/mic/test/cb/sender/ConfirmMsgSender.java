@@ -1,10 +1,13 @@
 package com.focustech.mic.test.cb.sender;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSON;
+
 import com.focustech.mic.test.cb.entity.MsgConfirm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.jms.core.JmsOperations;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -20,16 +23,14 @@ public class ConfirmMsgSender {
     @Autowired
     private JmsOperations jmsOperations;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    public void confirmMessage(Message message) throws JMSException, JsonProcessingException {
+    public void confirm(Message message) throws JMSException {
         final MsgConfirm msgConfirm = new MsgConfirm();
         msgConfirm.setAddTime(new Date());
         msgConfirm.setBusinessType("WMS2OSS_MSG_COMFIRM");
         msgConfirm.setFromSite("local");
         msgConfirm.setRecId(message.getStringProperty("recId"));
         msgConfirm.setStatus("1");
-        final String jsonMsgConfirm = objectMapper.writeValueAsString(msgConfirm);
+        final String jsonMsgConfirm = JSON.toJSONString(msgConfirm);
         System.out.println("发送消息：" + jsonMsgConfirm );
         jmsOperations.send(session -> session.createTextMessage(jsonMsgConfirm));
     }
