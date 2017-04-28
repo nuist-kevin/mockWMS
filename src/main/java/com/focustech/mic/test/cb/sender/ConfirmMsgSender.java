@@ -2,12 +2,9 @@ package com.focustech.mic.test.cb.sender;
 
 import com.alibaba.fastjson.JSON;
 
-import com.focustech.mic.test.cb.entity.MsgConfirm;
+import com.focustech.mic.test.cb.entity.wms.MsgConfirm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.jms.core.JmsOperations;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/mockWMS.iml" filepath="$PROJECT_DIR$/mockWMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mount-persist/mount-persist.iml" filepath="$PROJECT_DIR$/mount-persist/mount-persist.iml" />
     </modules>
   </component>
 </project>

@@ -19,8 +19,9 @@
     <bean id="oss2wms" class="org.apache.activemq.command.ActiveMQQueue"
           c:_0="OSS2WMS"/>
 
-    <!--<bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory"-->
-          <!--p:brokerURL="tcp://192.168.43.22:61600" p:userName="mlan" p:password="mlan1234"/>-->
+
+    <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory"
+          p:brokerURL="tcp://192.168.43.22:61600" p:userName="mlan" p:password="mlan1234"/>
 
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
           p:connectionFactory-ref="testConnectionFactory"

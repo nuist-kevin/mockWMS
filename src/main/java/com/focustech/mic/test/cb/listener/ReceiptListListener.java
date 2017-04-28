@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.focustech.mic.test.cb.entity.AsnOrder;
 import com.focustech.mic.test.cb.entity.DeliveryOrder;
 import com.focustech.mic.test.cb.sender.ConfirmMsgSender;
+import com.focustech.mic.test.cb.sender.DoMsgSender;
 import com.jayway.jsonpath.JsonPath;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,15 @@ public class ReceiptListListener implements MessageListener  {
     @Autowired
     ConfirmMsgSender confirmMsgSender;
 
+    @Autowired
+    DoMsgSender doMsgSender;
+
     public void onMessage(Message message) {
 
-        if (message instanceof ActiveMQTextMessage) {
+        if (message instanceof TextMessage) {
             try {
                 // 发送一般消息响应
                 confirmMsgSender.confirm(message);
-
-
 
                 String jsonMessage = ((ActiveMQTextMessage) message).getText();
                 String businessType = JsonPath.read(jsonMessage, "$.businessType");
@@ -36,13 +38,13 @@ public class ReceiptListListener implements MessageListener  {
 
                 if ("OSS2WMS_DELLIST".equals(businessType)) {
                        //响应出库单消息
-                    DeliveryOrder deliveryOrder = JSON.parseObject(((TextMessage) message).getText(), DeliveryOrder.class);
 
-                    // 消息是 出库单审核通过 ，通过 type 为 new 判断
+                    doMsgSender.sendSuiteForMessage((ActiveMQTextMessage) message);
+     /*               // 消息是 出库单审核通过 ，通过 type 为 new 判断
                     if ("new".equals(deliveryOrder.getType())) {
                         // 发送响应消息
 
-                    }
+                    }*/
                 }
 
                 if ("OSS2WMS_ASN".equals(businessType)) {
