@@ -21,7 +21,7 @@
     </build>
 
     <properties>
-        <spring.version>4.3.8.RELEASE</spring.version>
+        <spring.version>4.3.11.RELEASE</spring.version>
         <spring-data-jpa.version>1.11.3.RELEASE</spring-data-jpa.version>
         <activemq.version>5.7.0</activemq.version>
         <activemq-all.version>5.14.4</activemq-all.version>

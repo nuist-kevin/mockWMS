@@ -1,17 +1,17 @@
 package com.focustech.mic.test.cb.listener;
 
 /**
- * Created by caiwen on 2017/4/20.
+ * @author caiwen
  */
 public class MyListenerWithAdapter {
 
-    public void handleMessage(String message) {
-        try {
+  public void handleMessage(String message) {
+    try {
 
-            System.out.println(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      System.out.println(message);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
 }

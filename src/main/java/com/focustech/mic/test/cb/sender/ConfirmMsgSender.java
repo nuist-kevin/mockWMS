@@ -12,23 +12,23 @@ import javax.jms.Message;
 import java.util.Date;
 
 /**
- * Created by caiwen on 2017/4/21.
+ * @author caiwen
  */
 @Component
 public class ConfirmMsgSender {
 
-    @Autowired
-    private JmsOperations jmsOperations;
+  @Autowired
+  private JmsOperations jmsOperations;
 
-    public void confirm(Message message) throws JMSException {
-        final MsgConfirm msgConfirm = new MsgConfirm();
-        msgConfirm.setAddTime(new Date());
-        msgConfirm.setBusinessType("WMS2OSS_MSG_COMFIRM");
-        msgConfirm.setFromSite("local");
-        msgConfirm.setRecId(message.getStringProperty("recId"));
-        msgConfirm.setStatus("1");
-        final String jsonMsgConfirm = JSON.toJSONString(msgConfirm);
-        System.out.println("发送消息：" + jsonMsgConfirm );
-        jmsOperations.send(session -> session.createTextMessage(jsonMsgConfirm));
-    }
+  public void confirm(Message message) throws JMSException {
+    final MsgConfirm msgConfirm = new MsgConfirm();
+    msgConfirm.setAddTime(new Date());
+    msgConfirm.setBusinessType("WMS2OSS_MSG_COMFIRM");
+    msgConfirm.setFromSite("local");
+    msgConfirm.setRecId(message.getStringProperty("recId"));
+    msgConfirm.setStatus("1");
+    final String jsonMsgConfirm = JSON.toJSONString(msgConfirm);
+    System.out.println("发送消息：" + jsonMsgConfirm);
+    jmsOperations.send(session -> session.createTextMessage(jsonMsgConfirm));
+  }
 }
