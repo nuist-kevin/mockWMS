@@ -1,5 +1,8 @@
 package com.focustech.mic.test.cb.listener;
 
+import static com.focustech.mic.test.cb.entity.BusinessType.OSS2WMS_ASN;
+import static com.focustech.mic.test.cb.entity.BusinessType.OSS2WMS_DELLIST;
+
 import com.alibaba.fastjson.JSON;
 
 import com.focustech.mic.test.cb.entity.mount.AsnOrder;
@@ -18,11 +21,12 @@ import java.io.IOException;
 public class ReceiptListListener implements MessageListener {
 
   @Autowired
-  ConfirmMsgSender confirmMsgSender;
+  private ConfirmMsgSender confirmMsgSender;
 
   @Autowired
-  DoMsgSender doMsgSender;
+  private DoMsgSender doMsgSender;
 
+  @Override
   public void onMessage(Message message) {
 
     if (message instanceof TextMessage) {
@@ -35,7 +39,7 @@ public class ReceiptListListener implements MessageListener {
         System.out.println(jsonMessage);
         System.out.println(((ActiveMQTextMessage) message).getProperties());
 
-        if ("OSS2WMS_DELLIST".equals(businessType)) {
+        if (OSS2WMS_DELLIST.toString().equals(businessType)) {
           //响应出库单消息
 
           doMsgSender.sendSuiteForMessage((ActiveMQTextMessage) message);
@@ -46,7 +50,7 @@ public class ReceiptListListener implements MessageListener {
                     }*/
         }
 
-        if ("OSS2WMS_ASN".equals(businessType)) {
+        if (OSS2WMS_ASN.toString().equals(businessType)) {
           //响应入库单消息
           AsnOrder asnOrder = JSON.parseObject(((TextMessage) message).getText(), AsnOrder.class);
           if ("new".equals(asnOrder.getType())) {

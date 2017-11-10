@@ -14,7 +14,7 @@ import javax.jms.TextMessage;
 /**
  * @author caiwen
  */
-public class MyMessageConverter implements MessageConverter {
+public class JsonMessageConverter implements MessageConverter {
 
   @Override
   public Message toMessage(Object object, Session session)

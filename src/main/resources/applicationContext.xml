@@ -20,7 +20,7 @@
     c:_0="OSS2WMS"/>
 
   <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory"
-    p:brokerURL="tcp://192.168.43.22:61600" p:userName="mlan" p:password="mlan1234"/>
+    p:brokerURL="tcp://192.168.47.28:61600" p:userName="mlan" p:password="mlan1234"/>
 
   <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
     p:connectionFactory-ref="connectionFactory"
@@ -45,14 +45,15 @@
 
   <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
     destroy-method="close">
-    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-    <property name="url" value="jdbc:oracle:thin:@192.168.17.104:1521:CBTEST"/>
-    <property name="username" value="cb"/>
-    <property name="password" value="cb1234"/>
+    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    <property name="url" value="jdbc:oracle:thin:@192.168.17.104:1521:CBTEST" />
+    <property name="username" value="cb" />
+    <property name="password" value="cb1234" />
   </bean>
 
   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
     p:dataSource-ref="dataSource"/>
+
   <!--<bean id="jmsListenerContainerFactory" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">-->
   <!--<property name="connectionFactory" ref="connectionFactory"/>-->
   <!--<property name="messageConverter" ref="jsonMessageConverter"/>-->

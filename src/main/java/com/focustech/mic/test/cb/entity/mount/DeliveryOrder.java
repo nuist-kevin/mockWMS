@@ -1,5 +1,6 @@
 package com.focustech.mic.test.cb.entity.mount;
 
+import com.focustech.mic.test.cb.entity.BusinessType;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class DeliveryOrder {
   private String expectedQuantityBU;
   private List<DoCargo> transitDeliveryListDetails;
 
-  private String businessType;
+  private BusinessType businessType;
   private Long micVersion;
   private String operationCode;
   private String priority;
@@ -42,6 +43,10 @@ public class DeliveryOrder {
   private String address2;
   private String postCode;
   private String description;
+
+  public void setBillType(String billType) {
+    this.billType = billType;
+  }
 
   public String getRelatedBill1() {
     return relatedBill1;
@@ -69,10 +74,6 @@ public class DeliveryOrder {
 
   public String getBillType() {
     return billType;
-  }
-
-  public void setBillType(String billType) {
-    this.billType = billType;
   }
 
   public Date getOrderDate() {
@@ -115,11 +116,11 @@ public class DeliveryOrder {
     this.transitDeliveryListDetails = transitDeliveryListDetails;
   }
 
-  public String getBusinessType() {
+  public BusinessType getBusinessType() {
     return businessType;
   }
 
-  public void setBusinessType(String businessType) {
+  public void setBusinessType(BusinessType businessType) {
     this.businessType = businessType;
   }
 

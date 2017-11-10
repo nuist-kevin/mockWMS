@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.alibaba.fastjson.JSON.parseObject;
+import static com.focustech.mic.test.cb.entity.wms.order.DeliveryPost.ACTIVATED;
+import static com.focustech.mic.test.cb.entity.wms.order.DeliveryPost.SHIPMENT_REGISTERED;
+import static com.focustech.mic.test.cb.entity.wms.order.DeliveryPost.WORK_DOC_FINISHED;
 
 /**
  * @author caiwen
@@ -33,10 +36,10 @@ import static com.alibaba.fastjson.JSON.parseObject;
 public class DoMsgSender {
 
   @Autowired
-  JmsOperations jmsOperations;
+  private JmsOperations jmsOperations;
 
-  //    @Autowired
-  JdbcTemplate jdbcTemplate;
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
   private DeliveryStatusMsg buildMsgObjectFromMqMessage(TextMessage message, String status)
       throws JMSException, IOException {
@@ -53,21 +56,16 @@ public class DoMsgSender {
 
   }
 
-  public String messageToJson(DeliveryStatusMsg deliveryStatusMsg) {
-    return JSON.toJSONString(deliveryStatusMsg);
-
-  }
-
   public void sendSuiteForMessage(TextMessage message) throws IOException, JMSException {
     //发货单生效
-    DeliveryStatusMsg deliveryStatusMsg = buildMsgObjectFromMqMessage(message, "1");
-    String activateDoMsg = messageToJson(deliveryStatusMsg);
-    jmsOperations.send(session -> session.createTextMessage(activateDoMsg));
+    DeliveryStatusMsg activatedMsg = buildMsgObjectFromMqMessage(message, ACTIVATED);
+    String activatedMsgInJson = JSON.toJSONString(activatedMsg);
+    jmsOperations.send(session -> session.createTextMessage(activatedMsgInJson));
 
     //拣货单完成
-    deliveryStatusMsg.setStatus("2");
-    String pickupfinishedMsg = messageToJson(deliveryStatusMsg);
-    jmsOperations.send(session -> session.createTextMessage(pickupfinishedMsg));
+    DeliveryStatusMsg workDocFinishedMsg = buildMsgObjectFromMqMessage(message, WORK_DOC_FINISHED);
+    String workDocFinishedMsgInJson = JSON.toJSONString(workDocFinishedMsg);
+    jmsOperations.send(session -> session.createTextMessage(workDocFinishedMsgInJson));
 
     //过账
 
@@ -79,9 +77,9 @@ public class DoMsgSender {
     jmsOperations.send(session -> session.createTextMessage(deliveryPostMessage));
 
     //发货完成
-    deliveryStatusMsg.setStatus("3");
-    String finishedMsg = messageToJson(deliveryStatusMsg);
-    jmsOperations.send(session -> session.createTextMessage(finishedMsg));
+    DeliveryStatusMsg shipmentRegisteredMsg = buildMsgObjectFromMqMessage(message, SHIPMENT_REGISTERED);
+    String shipmentRegisteredMsgInJson = JSON.toJSONString(shipmentRegisteredMsg);
+    jmsOperations.send(session -> session.createTextMessage(shipmentRegisteredMsgInJson));
   }
 
   public DeliveryPost build(DeliveryOrder deliveryOrder) {
@@ -109,7 +107,6 @@ public class DoMsgSender {
         deliverCargo.setMicAsnOrderId(sqlRowSet.getString(2));
       }
 
-      System.out.println(sqlRowSet.toString());
       postingDetails.add(deliverCargo);
     }
     deliveryPost.setSendPostingDetails(postingDetails);

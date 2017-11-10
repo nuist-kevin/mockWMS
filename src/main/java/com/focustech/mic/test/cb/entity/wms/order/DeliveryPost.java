@@ -9,6 +9,21 @@ import java.util.List;
  */
 public class DeliveryPost {
 
+  /**
+   * 发货单已生效
+   */
+  public final static String ACTIVATED = "1";
+
+  /**
+   * 作业单已完成
+   */
+  public final static String WORK_DOC_FINISHED = "2";
+
+  /**
+   * 已发运登记
+   */
+  public final static String SHIPMENT_REGISTERED = "3";
+
   private String bolCode;
   private BusinessType businessType = BusinessType.WMS2OSS_DELIVERYPOST;
   private String carrierService;

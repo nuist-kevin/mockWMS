@@ -1,5 +1,6 @@
 package com.focustech.mic.test.cb.entity.wms;
 
+import com.focustech.mic.test.cb.entity.BusinessType;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
 public class MsgConfirm {
 
   private Date addTime;
-  private String businessType;
+  private BusinessType businessType;
   private String fromSite;
   private String recId;
   private String status;
@@ -21,11 +22,11 @@ public class MsgConfirm {
     this.addTime = addTime;
   }
 
-  public String getBusinessType() {
+  public BusinessType getBusinessType() {
     return businessType;
   }
 
-  public void setBusinessType(String businessType) {
+  public void setBusinessType(BusinessType businessType) {
     this.businessType = businessType;
   }
 

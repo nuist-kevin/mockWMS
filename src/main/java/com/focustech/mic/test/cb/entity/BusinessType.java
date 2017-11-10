@@ -5,6 +5,8 @@ package com.focustech.mic.test.cb.entity;
  */
 public enum BusinessType {
   OSS2WMS_DELLIST,
+
+  WMS2OSS_MSG_COMFIRM,
   WMS2OSS_DELIVERY_SYN,
   WMS2OSS_DELIVERYPOST,
   OSS2WMS_ASN,
