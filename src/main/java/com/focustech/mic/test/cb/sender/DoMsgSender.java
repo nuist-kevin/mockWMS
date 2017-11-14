@@ -2,6 +2,7 @@ package com.focustech.mic.test.cb.sender;
 
 import com.alibaba.fastjson.JSON;
 
+import com.focustech.mic.test.cb.entity.BusinessType;
 import com.focustech.mic.test.cb.entity.mount.DeliveryOrder;
 import com.focustech.mic.test.cb.entity.mount.DoCargo;
 import com.focustech.mic.test.cb.entity.wms.order.DeliverCargo;

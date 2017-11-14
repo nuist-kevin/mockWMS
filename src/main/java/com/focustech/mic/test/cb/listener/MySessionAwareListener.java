@@ -11,6 +11,7 @@ import javax.jms.Session;
  */
 public class MySessionAwareListener implements SessionAwareMessageListener {
 
+  @Override
   public void onMessage(Message message, Session session) throws JMSException {
     System.out.println(message.getJMSType());
   }

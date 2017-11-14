@@ -56,7 +56,7 @@
 
   <!--<bean id="jmsListenerContainerFactory" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">-->
   <!--<property name="connectionFactory" ref="connectionFactory"/>-->
-  <!--<property name="messageConverter" ref="jsonMessageConverter"/>-->
+  <!--<property name="converter" ref="jsonMessageConverter"/>-->
   <!--<property name="concurrency" value="3-10"/>-->
 
   <!--</bean>-->

@@ -1,13 +1,13 @@
 package com.focustech.mic.test.cb.entity.wms.order;
 
-import com.focustech.mic.test.cb.entity.BusinessType;
-import java.util.Date;
+import com.focustech.mic.test.cb.entity.wms.BaseMsg;
+
 import java.util.List;
 
 /**
  * @author caiwen
  */
-public class DeliveryPost {
+public class DeliveryPost extends BaseMsg{
 
   /**
    * 发货单已生效
@@ -25,19 +25,9 @@ public class DeliveryPost {
   public final static String SHIPMENT_REGISTERED = "3";
 
   private String bolCode;
-  private BusinessType businessType = BusinessType.WMS2OSS_DELIVERYPOST;
   private String carrierService;
-  private String companyCode;
-  private Long micComId;
-  private String operatorName = "liangbiao";
-  private Integer operatorNo = 39;
-  private final Date operatorTime = new Date();
   private String pickCode;
-  private String relatedBill1;
-
   private List<DeliverCargo> sendPostingDetails;
-
-  private String warehouseCode;
 
   public String getBolCode() {
     return bolCode;
@@ -47,13 +37,16 @@ public class DeliveryPost {
     this.bolCode = bolCode;
   }
 
-
-  public BusinessType getBusinessType() {
-    return businessType;
+  public static String getACTIVATED() {
+    return ACTIVATED;
   }
 
-  public void setBusinessType(BusinessType businessType) {
-    this.businessType = businessType;
+  public static String getWorkDocFinished() {
+    return WORK_DOC_FINISHED;
+  }
+
+  public static String getShipmentRegistered() {
+    return SHIPMENT_REGISTERED;
   }
 
   public String getCarrierService() {
@@ -64,42 +57,6 @@ public class DeliveryPost {
     this.carrierService = carrierService;
   }
 
-  public String getCompanyCode() {
-    return companyCode;
-  }
-
-  public void setCompanyCode(String companyCode) {
-    this.companyCode = companyCode;
-  }
-
-  public Long getMicComId() {
-    return micComId;
-  }
-
-  public void setMicComId(Long micComId) {
-    this.micComId = micComId;
-  }
-
-  public String getOperatorName() {
-    return operatorName;
-  }
-
-  public void setOperatorName(String operatorName) {
-    this.operatorName = operatorName;
-  }
-
-  public Integer getOperatorNo() {
-    return operatorNo;
-  }
-
-  public void setOperatorNo(Integer operatorNo) {
-    this.operatorNo = operatorNo;
-  }
-
-  public Date getOperatorTime() {
-    return operatorTime;
-  }
-
   public String getPickCode() {
     return pickCode;
   }
@@ -108,27 +65,11 @@ public class DeliveryPost {
     this.pickCode = pickCode;
   }
 
-  public String getRelatedBill1() {
-    return relatedBill1;
-  }
-
-  public void setRelatedBill1(String relatedBill1) {
-    this.relatedBill1 = relatedBill1;
-  }
-
   public List<DeliverCargo> getSendPostingDetails() {
     return sendPostingDetails;
   }
 
   public void setSendPostingDetails(List<DeliverCargo> sendPostingDetails) {
     this.sendPostingDetails = sendPostingDetails;
-  }
-
-  public String getWarehouseCode() {
-    return warehouseCode;
-  }
-
-  public void setWarehouseCode(String warehouseCode) {
-    this.warehouseCode = warehouseCode;
   }
 }

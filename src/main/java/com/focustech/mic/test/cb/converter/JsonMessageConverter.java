@@ -1,4 +1,4 @@
-package com.focustech.mic.test.cb.messageConverter;
+package com.focustech.mic.test.cb.converter;
 
 
 import com.alibaba.fastjson.JSON;

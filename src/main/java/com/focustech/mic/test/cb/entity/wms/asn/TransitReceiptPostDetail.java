@@ -14,8 +14,17 @@ public class TransitReceiptPostDetail {
   private String itemCode;
   private String lotNo;
   private String packageUnit;
+  private LocalDate productDate;
   private BigDecimal receivedQuantityBU;
   private LocalDate storageDate;
+
+  public LocalDate getProductDate() {
+    return productDate;
+  }
+
+  public void setProductDate(LocalDate productDate) {
+    this.productDate = productDate;
+  }
 
   public Integer getCargoId() {
     return cargoId;

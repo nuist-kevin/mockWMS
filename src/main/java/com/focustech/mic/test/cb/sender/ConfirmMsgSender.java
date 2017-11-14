@@ -1,6 +1,5 @@
 package com.focustech.mic.test.cb.sender;
 
-import static com.focustech.mic.test.cb.entity.BusinessType.WMS2OSS_MSG_COMFIRM;
 
 import com.alibaba.fastjson.JSON;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
-import java.util.Date;
 
 /**
  * @author caiwen
@@ -24,11 +22,7 @@ public class ConfirmMsgSender {
 
   public void confirm(Message message) throws JMSException {
     final MsgConfirm msgConfirm = new MsgConfirm();
-    msgConfirm.setAddTime(new Date());
-    msgConfirm.setBusinessType(WMS2OSS_MSG_COMFIRM);
-    msgConfirm.setFromSite("local");
     msgConfirm.setRecId(message.getStringProperty("recId"));
-    msgConfirm.setStatus("1");
     final String jsonMsgConfirm = JSON.toJSONString(msgConfirm);
     jmsOperations.send(session -> session.createTextMessage(jsonMsgConfirm));
   }

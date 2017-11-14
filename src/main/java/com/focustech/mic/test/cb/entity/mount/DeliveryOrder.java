@@ -20,17 +20,17 @@ public class DeliveryOrder {
   private List<DoCargo> transitDeliveryListDetails;
 
   private BusinessType businessType;
-  private Long micVersion;
+  private Integer micVersion;
   private String operationCode;
   private String priority;
-  private Long resultType;
+  private Integer resultType;
   private String type;
 
   private String company;
   private String companyCode;
-  private Long micComId;
+  private Integer micComId;
   private String warehouse;
-  private Long wmsComId;
+  private Integer wmsComId;
 
   private String contactName;
   private String mobile;
@@ -43,10 +43,6 @@ public class DeliveryOrder {
   private String address2;
   private String postCode;
   private String description;
-
-  public void setBillType(String billType) {
-    this.billType = billType;
-  }
 
   public String getRelatedBill1() {
     return relatedBill1;
@@ -74,6 +70,10 @@ public class DeliveryOrder {
 
   public String getBillType() {
     return billType;
+  }
+
+  public void setBillType(String billType) {
+    this.billType = billType;
   }
 
   public Date getOrderDate() {
@@ -124,52 +124,12 @@ public class DeliveryOrder {
     this.businessType = businessType;
   }
 
-  public Long getMicVersion() {
+  public Integer getMicVersion() {
     return micVersion;
   }
 
-  public void setMicVersion(Long micVersion) {
+  public void setMicVersion(Integer micVersion) {
     this.micVersion = micVersion;
-  }
-
-  public String getCompany() {
-    return company;
-  }
-
-  public void setCompany(String company) {
-    this.company = company;
-  }
-
-  public String getCompanyCode() {
-    return companyCode;
-  }
-
-  public void setCompanyCode(String companyCode) {
-    this.companyCode = companyCode;
-  }
-
-  public Long getMicComId() {
-    return micComId;
-  }
-
-  public void setMicComId(Long micComId) {
-    this.micComId = micComId;
-  }
-
-  public String getWarehouse() {
-    return warehouse;
-  }
-
-  public void setWarehouse(String warehouse) {
-    this.warehouse = warehouse;
-  }
-
-  public Long getWmsComId() {
-    return wmsComId;
-  }
-
-  public void setWmsComId(Long wmsComId) {
-    this.wmsComId = wmsComId;
   }
 
   public String getOperationCode() {
@@ -188,11 +148,11 @@ public class DeliveryOrder {
     this.priority = priority;
   }
 
-  public Long getResultType() {
+  public Integer getResultType() {
     return resultType;
   }
 
-  public void setResultType(Long resultType) {
+  public void setResultType(Integer resultType) {
     this.resultType = resultType;
   }
 
@@ -202,6 +162,46 @@ public class DeliveryOrder {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
+
+  public String getCompanyCode() {
+    return companyCode;
+  }
+
+  public void setCompanyCode(String companyCode) {
+    this.companyCode = companyCode;
+  }
+
+  public Integer getMicComId() {
+    return micComId;
+  }
+
+  public void setMicComId(Integer micComId) {
+    this.micComId = micComId;
+  }
+
+  public String getWarehouse() {
+    return warehouse;
+  }
+
+  public void setWarehouse(String warehouse) {
+    this.warehouse = warehouse;
+  }
+
+  public Integer getWmsComId() {
+    return wmsComId;
+  }
+
+  public void setWmsComId(Integer wmsComId) {
+    this.wmsComId = wmsComId;
   }
 
   public String getContactName() {

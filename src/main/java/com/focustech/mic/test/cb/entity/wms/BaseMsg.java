@@ -1,35 +1,26 @@
-package com.focustech.mic.test.cb.entity.wms.asn;
+package com.focustech.mic.test.cb.entity.wms;
 
 import com.focustech.mic.test.cb.entity.BusinessType;
-import java.math.BigDecimal;
+
 import java.util.Date;
-import java.util.List;
+
+import static com.focustech.mic.test.cb.entity.CommonConstant.OPERATOR_NAME;
+import static com.focustech.mic.test.cb.entity.CommonConstant.OPERATOR_NO;
+import static com.focustech.mic.test.cb.entity.CommonConstant.WAREHOUSE_CODE;
 
 /**
  * @author caiwen
  */
-public class PutAwayfinishMsg {
+public class BaseMsg {
 
-  private String asnCode;
-  private BusinessType businessType = BusinessType.WMS2OSS_PUTAWAYPOST;
+  private BusinessType businessType;
   private String companyCode;
-  private BigDecimal expectedQuantityBU;
   private Integer micComId;
-  private String operatorName = "liangbiao";
-  private Integer operatorNo = 39;
-  private Date operatorTime;
-  private BigDecimal receivedQuantityBU;
+  private String operatorName = OPERATOR_NAME;
+  private Integer operatorNo = OPERATOR_NO;
+  private Date operatorTime = new Date();
   private String relatedBill1;
-  private List<TransitReceiptPostDetail> transitReceiptPostDetails;
-  private String warehouseCode = "FTUSCA001";
-
-  public String getAsnCode() {
-    return asnCode;
-  }
-
-  public void setAsnCode(String asnCode) {
-    this.asnCode = asnCode;
-  }
+  private String warehouseCode = WAREHOUSE_CODE;
 
   public BusinessType getBusinessType() {
     return businessType;
@@ -45,14 +36,6 @@ public class PutAwayfinishMsg {
 
   public void setCompanyCode(String companyCode) {
     this.companyCode = companyCode;
-  }
-
-  public BigDecimal getExpectedQuantityBU() {
-    return expectedQuantityBU;
-  }
-
-  public void setExpectedQuantityBU(BigDecimal expectedQuantityBU) {
-    this.expectedQuantityBU = expectedQuantityBU;
   }
 
   public Integer getMicComId() {
@@ -87,29 +70,12 @@ public class PutAwayfinishMsg {
     this.operatorTime = operatorTime;
   }
 
-  public BigDecimal getReceivedQuantityBU() {
-    return receivedQuantityBU;
-  }
-
-  public void setReceivedQuantityBU(BigDecimal receivedQuantityBU) {
-    this.receivedQuantityBU = receivedQuantityBU;
-  }
-
   public String getRelatedBill1() {
     return relatedBill1;
   }
 
   public void setRelatedBill1(String relatedBill1) {
     this.relatedBill1 = relatedBill1;
-  }
-
-  public List<TransitReceiptPostDetail> getTransitReceiptPostDetails() {
-    return transitReceiptPostDetails;
-  }
-
-  public void setTransitReceiptPostDetails(
-      List<TransitReceiptPostDetail> transitReceiptPostDetails) {
-    this.transitReceiptPostDetails = transitReceiptPostDetails;
   }
 
   public String getWarehouseCode() {

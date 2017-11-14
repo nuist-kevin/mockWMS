@@ -1,5 +1,6 @@
 package com.focustech.mic.test.cb.entity.mount;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -7,27 +8,27 @@ import java.util.Date;
  */
 public class AsnCargo {
 
-  private Long cargoId;
-  private Long expectedQuantity;
+  private Integer cargoId;
+  private Integer expectedQuantity;
   private String inventoryStatus;
   private String itemCode;
-  private Long micAsnCagroId;
+  private Integer micAsnCagroId;
   private String packageUnit;
-  private Date productionDate;
+  private LocalDate productionDate;
 
-  public Long getCargoId() {
+  public Integer getCargoId() {
     return cargoId;
   }
 
-  public void setCargoId(Long cargoId) {
+  public void setCargoId(Integer cargoId) {
     this.cargoId = cargoId;
   }
 
-  public Long getExpectedQuantity() {
+  public Integer getExpectedQuantity() {
     return expectedQuantity;
   }
 
-  public void setExpectedQuantity(Long expectedQuantity) {
+  public void setExpectedQuantity(Integer expectedQuantity) {
     this.expectedQuantity = expectedQuantity;
   }
 
@@ -47,11 +48,11 @@ public class AsnCargo {
     this.itemCode = itemCode;
   }
 
-  public Long getMicAsnCagroId() {
+  public Integer getMicAsnCagroId() {
     return micAsnCagroId;
   }
 
-  public void setMicAsnCagroId(Long micAsnCagroId) {
+  public void setMicAsnCagroId(Integer micAsnCagroId) {
     this.micAsnCagroId = micAsnCagroId;
   }
 
@@ -63,11 +64,11 @@ public class AsnCargo {
     this.packageUnit = packageUnit;
   }
 
-  public Date getProductionDate() {
+  public LocalDate getProductionDate() {
     return productionDate;
   }
 
-  public void setProductionDate(Date productionDate) {
+  public void setProductionDate(LocalDate productionDate) {
     this.productionDate = productionDate;
   }
 }
