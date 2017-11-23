@@ -3,9 +3,6 @@ package com.focustech.mic.test.cb.listener;
 import static com.focustech.mic.test.cb.entity.BusinessType.OSS2WMS_ASN;
 import static com.focustech.mic.test.cb.entity.BusinessType.OSS2WMS_DELLIST;
 
-import com.alibaba.fastjson.JSON;
-
-import com.focustech.mic.test.cb.entity.mount.AsnOrder;
 import com.focustech.mic.test.cb.sender.AsnMsgSender;
 import com.focustech.mic.test.cb.sender.ConfirmMsgSender;
 import com.focustech.mic.test.cb.sender.DoMsgSender;
@@ -19,14 +16,14 @@ import java.io.IOException;
 /**
  * @author caiwen
  */
-public class ReceiptListListener implements MessageListener {
+
+public class WmsMessageListener implements MessageListener{
 
   @Autowired
   private ConfirmMsgSender confirmMsgSender;
 
   @Autowired
   private DoMsgSender doMsgSender;
-
 
   @Autowired
   private AsnMsgSender asnMsgSender;
@@ -61,10 +58,6 @@ public class ReceiptListListener implements MessageListener {
     } else {
       throw new IllegalArgumentException("Message must be of type TextMessage");
     }
-  }
-
-  public void handleMessage(ActiveMQTextMessage message) {
-
   }
 
 }

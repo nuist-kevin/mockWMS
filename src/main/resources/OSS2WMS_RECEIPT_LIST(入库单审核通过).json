@@ -1,9 +1,7 @@
 {
     "billTypeCode": "11",
     "businessType": "OSS2WMS_ASN",
-    "cargoCountIds": {},
     "companyCode": "6024",
-    "detailSnapIds": {},
     "estimateDate": "2017-04-18",
     "expectedQuantityBU": 34,
     "micAsnOrderNo": "CANI170418160247306",

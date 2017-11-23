@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.focustech.mic.test.cb.entity.BusinessType;
 import com.focustech.mic.test.cb.entity.mount.AsnOrder;
 import com.focustech.mic.test.cb.entity.wms.asn.ArrivalRegisterMsg;
+import com.focustech.mic.test.cb.entity.wms.asn.PutAwayFinishMsg;
 import com.focustech.mic.test.cb.entity.wms.asn.ReceiptPostMsg;
 import com.focustech.mic.test.cb.entity.wms.asn.TransitReceiptPostDetail;
 
@@ -20,6 +21,8 @@ import javax.jms.TextMessage;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +40,7 @@ public class AsnMsgSender {
 
   private ArrivalRegisterMsg arrivalRegisterMsg;
   private PutAwayFinishMsg putAwayFinishMsg;
-  private ReceiptPostMsg receiptPostMsg;
+  private ReceiptPostMsg receiptPostMsg = new ReceiptPostMsg();
 
   public void sendAsnResponse(TextMessage message) throws JMSException, IOException {
     AsnOrder asnOrder = JSON.parseObject(message.getText(), AsnOrder.class);
@@ -53,6 +56,8 @@ public class AsnMsgSender {
     arrivalRegisterMsg.setRelatedBill1(asnOrder.getRelatedBill1());
     arrivalRegisterMsg.setCompanyCode(asnOrder.getCompanyCode());
     arrivalRegisterMsg.setMicComId(asnOrder.getMicComId());
+    System.out.println("send arrivalRegister message: ");
+    System.out.println(arrivalRegisterMsg);
     jmsOperations.convertAndSend(arrivalRegisterMsg);
   }
 
@@ -78,20 +83,26 @@ public class AsnMsgSender {
               transitReceiptPostDetail.setPackageUnit(asnCargo.getPackageUnit());
               transitReceiptPostDetail.setProductDate(asnCargo.getProductionDate());
               transitReceiptPostDetail.setStorageDate(LocalDate.now());
-              SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(
-                      " SELECT WMSR_LOT_NO, ASN_ORD_ID FROM WMS_LOT_INFO WHERE CARGO_ID = " +
-                              asnCargo.getCargoId());
-              if (sqlRowSet.next()) {
-                transitReceiptPostDetail.setLotNo(sqlRowSet.getString(1));
-              }
+//              SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(
+//                      " SELECT WMSR_LOT_NO, ASN_ORD_ID FROM WMS_LOT_INFO WHERE CARGO_ID = " +
+//                              asnCargo.getCargoId());
+//              if (sqlRowSet.next()) {
+//                transitReceiptPostDetail.setLotNo(sqlRowSet.getString(1));
+//              }
+              transitReceiptPostDetail.setLotNo(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
               transitReceiptPostDetails.add(transitReceiptPostDetail);
             });
+    this.putAwayFinishMsg.setTransitReceiptPostDetails(transitReceiptPostDetails);
+    System.out.println("send putAwayFinishMsg message: ");
+    System.out.println(this.putAwayFinishMsg);
     jmsOperations.convertAndSend(this.putAwayFinishMsg);
   }
 
   public void receiptPost() {
     BeanUtils.copyProperties(this.putAwayFinishMsg, this.receiptPostMsg, "businessType");
     this.receiptPostMsg.setBusinessType(BusinessType.WMS2OSS_RECEIPTPOST);
+    System.out.println("send receiptPostMsg message: ");
+    System.out.println(this.receiptPostMsg);
     jmsOperations.convertAndSend(this.receiptPostMsg);
   }
 }
