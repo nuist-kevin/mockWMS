@@ -2,6 +2,7 @@ package com.focustech.mic.test.cb.sender;
 
 import com.alibaba.fastjson.JSON;
 
+import com.focustech.mic.test.cb.entity.DateFormat;
 import com.focustech.mic.test.cb.entity.BusinessType;
 import com.focustech.mic.test.cb.entity.mount.DeliveryOrder;
 import com.focustech.mic.test.cb.entity.mount.DoCargo;
@@ -86,7 +87,7 @@ public class DoMsgSender {
   public DeliveryPost build(DeliveryOrder deliveryOrder) {
     DeliveryPost deliveryPost = new DeliveryPost();
     deliveryPost.setBolCode(
-        "CAPT" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddhhmmss")));
+        "CAPT" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
     BeanUtils.copyProperties(deliveryOrder, deliveryPost, "businessType");
 
     List<DeliverCargo> postingDetails = new ArrayList<>(
