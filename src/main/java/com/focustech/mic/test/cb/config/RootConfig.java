@@ -6,10 +6,12 @@ import com.focustech.mic.test.cb.listener.WmsMessageListener;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jms.core.JmsOperations;
 import org.springframework.jms.core.JmsTemplate;
@@ -29,12 +31,22 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = "com.focustech.mic.test.cb",
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)})
+@PropertySource("classpath:application.properties")
 public class RootConfig {
 
-
+  @Value("${brokerUrl}")
+  private String brokerUrl;
+  @Value("${mqUsername}")
+  private String mqUsername;
+  @Value("${mqPassword}")
+  private String mqPassword;
   @Bean
   public ConnectionFactory connectionFactory() {
-    return new ActiveMQConnectionFactory();
+    ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+    connectionFactory.setBrokerURL(brokerUrl);
+    connectionFactory.setUserName(mqUsername);
+    connectionFactory.setPassword(mqPassword);
+    return connectionFactory;
   }
 
   @Bean

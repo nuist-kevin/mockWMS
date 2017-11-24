@@ -83,13 +83,13 @@ public class AsnMsgSender {
               transitReceiptPostDetail.setPackageUnit(asnCargo.getPackageUnit());
               transitReceiptPostDetail.setProductDate(asnCargo.getProductionDate());
               transitReceiptPostDetail.setStorageDate(LocalDate.now());
-//              SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(
-//                      " SELECT WMSR_LOT_NO, ASN_ORD_ID FROM WMS_LOT_INFO WHERE CARGO_ID = " +
-//                              asnCargo.getCargoId());
-//              if (sqlRowSet.next()) {
-//                transitReceiptPostDetail.setLotNo(sqlRowSet.getString(1));
-//              }
-              transitReceiptPostDetail.setLotNo(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+              SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(
+                      " SELECT WMSR_LOT_NO, ASN_ORD_ID FROM WMS_LOT_INFO WHERE CARGO_ID = " +
+                              asnCargo.getCargoId());
+              if (sqlRowSet.next()) {
+                transitReceiptPostDetail.setLotNo(sqlRowSet.getString(1));
+              }
+//              transitReceiptPostDetail.setLotNo(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
               transitReceiptPostDetails.add(transitReceiptPostDetail);
             });
     this.putAwayFinishMsg.setTransitReceiptPostDetails(transitReceiptPostDetails);

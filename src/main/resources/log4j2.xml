@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+    <File name="common" fileName="${sys:user.home}/logs/mockWMS.log">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C Line:%L %logger - %msg%n"/>
+    </File>
+    <File name="doMsgSender" fileName="${sys:user.home}/logs/doMsgSender.log">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C Line:%L %logger - %msg%n"/>
+    </File>
+    <File name="asnMsgSender" fileName="${sys:user.home}/logs/asnMsgSender.log">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C Line:%L %logger - %msg%n"/>
+    </File>
+  </Appenders>
+  <Loggers>
+    <Logger name="com.focustech.mic.test.cb.sender.DoMsgSender" level="DEBUG">
+      <AppenderRef ref="doMsgSender"/>
+    </Logger>
+    <Logger name="com.focustech.mic.test.cb.sender.AsnMsgSender" level="DEBUG">
+      <AppenderRef ref="doMsgSender"/>
+    </Logger>
+    <Root level="DEBUG">
+      <AppenderRef ref="common"/>
+    </Root>
+  </Loggers>
+</Configuration>

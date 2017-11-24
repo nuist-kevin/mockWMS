@@ -8,6 +8,8 @@ import com.focustech.mic.test.cb.sender.ConfirmMsgSender;
 import com.focustech.mic.test.cb.sender.DoMsgSender;
 import com.jayway.jsonpath.JsonPath;
 import org.apache.activemq.command.ActiveMQTextMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.*;
@@ -18,6 +20,8 @@ import java.io.IOException;
  */
 
 public class WmsMessageListener implements MessageListener{
+
+  private final Logger logger = LoggerFactory.getLogger(WmsMessageListener.class);
 
   @Autowired
   private ConfirmMsgSender confirmMsgSender;
@@ -37,6 +41,7 @@ public class WmsMessageListener implements MessageListener{
         confirmMsgSender.confirm(message);
 
         String jsonMessage = ((ActiveMQTextMessage) message).getText();
+        logger.debug(jsonMessage);
         String businessType = JsonPath.read(jsonMessage, "$.businessType");
 
         if (OSS2WMS_DELLIST.toString().equals(businessType)) {

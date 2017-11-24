@@ -3,7 +3,7 @@ package com.focustech.mic.test.cb.entity.mount;
 /**
  * @author caiwen
  */
-public class DoCargo {
+public class TransitDeliveryListDetail {
 
   private Long cargoId;
   private String expectedQuantity;

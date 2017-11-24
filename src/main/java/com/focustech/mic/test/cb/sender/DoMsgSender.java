@@ -3,13 +3,14 @@ package com.focustech.mic.test.cb.sender;
 import com.alibaba.fastjson.JSON;
 
 import com.focustech.mic.test.cb.entity.DateFormat;
-import com.focustech.mic.test.cb.entity.BusinessType;
 import com.focustech.mic.test.cb.entity.mount.DeliveryOrder;
-import com.focustech.mic.test.cb.entity.mount.DoCargo;
-import com.focustech.mic.test.cb.entity.wms.order.DeliverCargo;
+import com.focustech.mic.test.cb.entity.mount.TransitDeliveryListDetail;
+import com.focustech.mic.test.cb.entity.wms.order.PostingDetail;
 import com.focustech.mic.test.cb.entity.wms.order.DeliveryPost;
 import com.focustech.mic.test.cb.entity.wms.order.DeliveryStatusMsg;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,15 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.alibaba.fastjson.JSON.parseObject;
-import static com.focustech.mic.test.cb.entity.wms.order.DeliveryPost.ACTIVATED;
-import static com.focustech.mic.test.cb.entity.wms.order.DeliveryPost.SHIPMENT_REGISTERED;
-import static com.focustech.mic.test.cb.entity.wms.order.DeliveryPost.WORK_DOC_FINISHED;
 
 /**
  * @author caiwen
  */
 @Component
 public class DoMsgSender {
+
+  private final Logger logger = LoggerFactory.getLogger(DoMsgSender.class);
 
   @Autowired
   private JmsOperations jmsOperations;
@@ -53,20 +53,22 @@ public class DoMsgSender {
     deliveryStatusMsg.setMicComId(deliveryOrder.getMicComId());
     deliveryStatusMsg.setRelatedBill1(deliveryOrder.getRelatedBill1());
     deliveryStatusMsg.setWmsDoCode(
-        "CAPO" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddhhmmss")));
+        "CAPO" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
     return deliveryStatusMsg;
 
   }
 
   public void sendSuiteForMessage(TextMessage message) throws IOException, JMSException {
     //发货单生效
-    DeliveryStatusMsg activatedMsg = buildMsgObjectFromMqMessage(message, ACTIVATED);
+    DeliveryStatusMsg activatedMsg = buildMsgObjectFromMqMessage(message, DeliveryStatusMsg.ACTIVATED);
     String activatedMsgInJson = JSON.toJSONString(activatedMsg);
+    logger.debug(activatedMsgInJson);
     jmsOperations.send(session -> session.createTextMessage(activatedMsgInJson));
 
     //拣货单完成
-    DeliveryStatusMsg workDocFinishedMsg = buildMsgObjectFromMqMessage(message, WORK_DOC_FINISHED);
+    DeliveryStatusMsg workDocFinishedMsg = buildMsgObjectFromMqMessage(message, DeliveryStatusMsg.WORK_DOC_FINISHED);
     String workDocFinishedMsgInJson = JSON.toJSONString(workDocFinishedMsg);
+    logger.debug(workDocFinishedMsgInJson);
     jmsOperations.send(session -> session.createTextMessage(workDocFinishedMsgInJson));
 
     //过账
@@ -75,12 +77,13 @@ public class DoMsgSender {
     DeliveryPost deliveryPost = build(deliveryOrder);
 
     String deliveryPostMessage = JSON.toJSONString(deliveryPost);
-    System.out.println(deliveryPostMessage);
+    logger.debug(deliveryPostMessage);
     jmsOperations.send(session -> session.createTextMessage(deliveryPostMessage));
 
     //发货完成
-    DeliveryStatusMsg shipmentRegisteredMsg = buildMsgObjectFromMqMessage(message, SHIPMENT_REGISTERED);
+    DeliveryStatusMsg shipmentRegisteredMsg = buildMsgObjectFromMqMessage(message, DeliveryStatusMsg.SHIPMENT_REGISTERED);
     String shipmentRegisteredMsgInJson = JSON.toJSONString(shipmentRegisteredMsg);
+    logger.debug(shipmentRegisteredMsgInJson);
     jmsOperations.send(session -> session.createTextMessage(shipmentRegisteredMsgInJson));
   }
 
@@ -88,32 +91,30 @@ public class DoMsgSender {
     DeliveryPost deliveryPost = new DeliveryPost();
     deliveryPost.setBolCode(
         "CAPT" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
+    deliveryPost.setPickCode(deliveryPost.getBolCode());
     BeanUtils.copyProperties(deliveryOrder, deliveryPost, "businessType");
 
-    List<DeliverCargo> postingDetails = new ArrayList<>(
+    List<PostingDetail> postingDetails = new ArrayList<>(
         deliveryOrder.getTransitDeliveryListDetails().size());
     for (int i = 0; i < deliveryOrder.getTransitDeliveryListDetails().size(); i++) {
-      DoCargo doCargo = deliveryOrder.getTransitDeliveryListDetails().get(i);
-      DeliverCargo deliverCargo = new DeliverCargo();
-      BeanUtils.copyProperties(doCargo, deliverCargo, "expectedQuantity", "packageUnit");
-      deliverCargo
-          .setExpectedQuantityBU(BigDecimal.valueOf(Long.parseLong(doCargo.getExpectedQuantity())));
-      deliverCargo.setShippedQuantityBU(deliverCargo.getExpectedQuantityBU());
-
-      // TODO 数据库查询 并 设置该货品的对应 入库单号 和 批次号
+      TransitDeliveryListDetail transitDeliveryListDetail = deliveryOrder.getTransitDeliveryListDetails().get(i);
+      PostingDetail postingDetail = new PostingDetail();
+      BeanUtils.copyProperties(transitDeliveryListDetail, postingDetail);
+      postingDetail
+          .setExpectedQuantityBU(BigDecimal.valueOf(Long.parseLong(transitDeliveryListDetail.getExpectedQuantity())));
+      postingDetail.setShippedQuantityBU(postingDetail.getExpectedQuantityBU());
+      postingDetail.setInventoryStatus(PostingDetail.WMS_INVENTORY_STATUS_NORMAL);
       SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(
           " SELECT WMSR_LOT_NO, ASN_ORD_ID FROM WMS_LOT_INFO WHERE CARGO_ID = " +
-              deliverCargo.getCargoId());
+              postingDetail.getCargoId());
       if (sqlRowSet.next()) {
-        deliverCargo.setWmsLotNo(sqlRowSet.getString(1));
-        deliverCargo.setMicAsnOrderId(sqlRowSet.getString(2));
+        postingDetail.setWmsLotNo(sqlRowSet.getString(1));
+        postingDetail.setMicAsnOrderId(sqlRowSet.getString(2));
       }
-
-      postingDetails.add(deliverCargo);
+      postingDetails.add(postingDetail);
     }
     deliveryPost.setSendPostingDetails(postingDetails);
-    deliveryPost.setWarehouseCode(deliveryOrder.getWarehouse());
-    deliveryPost.setPickCode(deliveryPost.getBolCode());
+
     return deliveryPost;
   }
 }

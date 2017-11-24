@@ -17,7 +17,7 @@ public class DeliveryOrder {
   private String intendShipDate;
   private String carrierService;
   private String expectedQuantityBU;
-  private List<DoCargo> transitDeliveryListDetails;
+  private List<TransitDeliveryListDetail> transitDeliveryListDetails;
 
   private BusinessType businessType;
   private Integer micVersion;
@@ -108,11 +108,11 @@ public class DeliveryOrder {
     this.expectedQuantityBU = expectedQuantityBU;
   }
 
-  public List<DoCargo> getTransitDeliveryListDetails() {
+  public List<TransitDeliveryListDetail> getTransitDeliveryListDetails() {
     return transitDeliveryListDetails;
   }
 
-  public void setTransitDeliveryListDetails(List<DoCargo> transitDeliveryListDetails) {
+  public void setTransitDeliveryListDetails(List<TransitDeliveryListDetail> transitDeliveryListDetails) {
     this.transitDeliveryListDetails = transitDeliveryListDetails;
   }
 
