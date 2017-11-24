@@ -28,9 +28,9 @@ public class DeliveryOrder {
 
   private String company;
   private String companyCode;
-  private Integer micComId;
+  private Long micComId;
   private String warehouse;
-  private Integer wmsComId;
+  private Long wmsComId;
 
   private String contactName;
   private String mobile;
@@ -112,7 +112,8 @@ public class DeliveryOrder {
     return transitDeliveryListDetails;
   }
 
-  public void setTransitDeliveryListDetails(List<TransitDeliveryListDetail> transitDeliveryListDetails) {
+  public void setTransitDeliveryListDetails(
+      List<TransitDeliveryListDetail> transitDeliveryListDetails) {
     this.transitDeliveryListDetails = transitDeliveryListDetails;
   }
 
@@ -180,12 +181,20 @@ public class DeliveryOrder {
     this.companyCode = companyCode;
   }
 
-  public Integer getMicComId() {
+  public Long getMicComId() {
     return micComId;
   }
 
-  public void setMicComId(Integer micComId) {
+  public void setMicComId(Long micComId) {
     this.micComId = micComId;
+  }
+
+  public Long getWmsComId() {
+    return wmsComId;
+  }
+
+  public void setWmsComId(Long wmsComId) {
+    this.wmsComId = wmsComId;
   }
 
   public String getWarehouse() {
@@ -196,13 +205,6 @@ public class DeliveryOrder {
     this.warehouse = warehouse;
   }
 
-  public Integer getWmsComId() {
-    return wmsComId;
-  }
-
-  public void setWmsComId(Integer wmsComId) {
-    this.wmsComId = wmsComId;
-  }
 
   public String getContactName() {
     return contactName;

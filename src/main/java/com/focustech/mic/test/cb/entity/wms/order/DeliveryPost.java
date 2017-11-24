@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author caiwen
  */
-public class DeliveryPost extends BaseMsg{
+public class DeliveryPost extends BaseMsg {
 
   private String bolCode;
   private String carrierService;

@@ -1,35 +1,35 @@
 {
-    "billTypeCode": "11",
-    "businessType": "OSS2WMS_ASN",
-    "companyCode": "6024",
-    "estimateDate": "2017-04-18",
-    "expectedQuantityBU": 34,
-    "micAsnOrderNo": "CANI170418160247306",
-    "micComId": 6024,
-    "micVersion": 2,
-    "orderDate": 1492502528000,
-    "receiptListDetails": [
-        {
-            "cargoId": 6897294,
-            "expectedQuantity": 10,
-            "inventoryStatus": "1",
-            "itemCode": "c-code-170314102753",
-            "micAsnCagroId": 1067114,
-            "packageUnit": "Box",
-            "productionDate": "2017-04-01"
-        },
-        {
-            "cargoId": 6897284,
-            "expectedQuantity": 24,
-            "inventoryStatus": "1",
-            "itemCode": "c-code-170314102747",
-            "micAsnCagroId": 1067124,
-            "packageUnit": "Box",
-            "productionDate": "2017-04-02"
-        }
-    ],
-    "relatedBill1": "1052214",
-    "resultType": 0,
-    "type": "new",
-    "warehouseCode": "FTUSCA001"
+  "billTypeCode": "11",
+  "businessType": "OSS2WMS_ASN",
+  "companyCode": "6024",
+  "estimateDate": "2017-04-18",
+  "expectedQuantityBU": 34,
+  "micAsnOrderNo": "CANI170418160247306",
+  "micComId": 6024,
+  "micVersion": 2,
+  "orderDate": 1492502528000,
+  "receiptListDetails": [
+    {
+      "cargoId": 6897294,
+      "expectedQuantity": 10,
+      "inventoryStatus": "1",
+      "itemCode": "c-code-170314102753",
+      "micAsnCagroId": 1067114,
+      "packageUnit": "Box",
+      "productionDate": "2017-04-01"
+    },
+    {
+      "cargoId": 6897284,
+      "expectedQuantity": 24,
+      "inventoryStatus": "1",
+      "itemCode": "c-code-170314102747",
+      "micAsnCagroId": 1067124,
+      "packageUnit": "Box",
+      "productionDate": "2017-04-02"
+    }
+  ],
+  "relatedBill1": "1052214",
+  "resultType": 0,
+  "type": "new",
+  "warehouseCode": "FTUSCA001"
 }

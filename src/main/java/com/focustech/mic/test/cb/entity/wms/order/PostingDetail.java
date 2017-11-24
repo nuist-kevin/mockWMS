@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * @author caiwen
  */
-public class PostingDetail  {
+public class PostingDetail {
 
   /**
    * 库存状态：正常状态

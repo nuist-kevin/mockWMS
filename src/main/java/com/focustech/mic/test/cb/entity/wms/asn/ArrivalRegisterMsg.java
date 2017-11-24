@@ -7,11 +7,12 @@ import java.util.Date;
 /**
  * @author caiwen
  */
-public class ArrivalRegisterMsg extends BaseMsg{
+public class ArrivalRegisterMsg extends BaseMsg {
 
+  public static final Integer RECEIVED_FLAG_FINISHED = 1;
   private String asnCode;
   private Date receivedDate = new Date();
-  private Integer receivedFlag = 1;
+  private Integer receivedFlag = RECEIVED_FLAG_FINISHED;
 
   public String getAsnCode() {
     return asnCode;

@@ -36,7 +36,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
   }
 
   @Bean
-  public SpringResourceTemplateResolver templateResolver(){
+  public SpringResourceTemplateResolver templateResolver() {
     SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
     templateResolver.setApplicationContext(this.applicationContext);
     templateResolver.setPrefix("/WEB-INF/templates/");
@@ -48,7 +48,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
   }
 
   @Bean
-  public SpringTemplateEngine templateEngine(){
+  public SpringTemplateEngine templateEngine() {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setTemplateResolver(templateResolver());
     templateEngine.setEnableSpringELCompiler(true);
@@ -56,7 +56,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
   }
 
   @Bean
-  public ThymeleafViewResolver viewResolver(){
+  public ThymeleafViewResolver viewResolver() {
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
     viewResolver.setTemplateEngine(templateEngine());
     viewResolver.setCharacterEncoding("UTF-8");

@@ -1,82 +1,75 @@
 package com.focustech.mic.test.cb.entity.mount;
 
 import com.focustech.mic.test.cb.entity.BusinessType;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
-import static com.focustech.mic.test.cb.entity.CommonConstant.BILL_TYPE_CODE_ASN;
-import static com.focustech.mic.test.cb.entity.CommonConstant.WAREHOUSE_CODE;
 
 /**
  * @author caiwen
  */
 public class AsnOrder {
 
-  private String billTypeCode;
-  private BusinessType businessType;
-  private List<Integer> cargoCountIds;
-  private String companyCode;
-  private List<Integer> detailSnapIds;
-  private LocalDate estimateDate;
-  private Integer expectedQuantityBU;
-  private String micAsnOrderNo;
-  private Integer micComId;
-  private Integer micVersion;
-  private Date orderDate;
-  private List<AsnCargo> receiptListDetails;
+  private Long micComId;
   private String relatedBill1;
-  private Integer resultType;
+  private String remark;
   private String type;
   private String warehouseCode;
+  private Integer expectedQuantityBU;
+  private String micAsnOrderNo;
 
-  public String getBillTypeCode() {
-    return billTypeCode;
+//  private List<Integer> cargoCountIds;
+
+  private String billTypeCode;
+
+//  private List<Integer> detailSnapIds;
+
+  private LocalDate estimateDate;
+  private Date orderDate;
+  private BusinessType businessType;
+  private String companyCode;
+  private List<ReceiptListDetail> receiptListDetails;
+  private Integer resultType;
+  private Integer micVersion;
+
+  public Long getMicComId() {
+    return micComId;
   }
 
-  public void setBillTypeCode(String billTypeCode) {
-    this.billTypeCode = billTypeCode;
+  public void setMicComId(Long micComId) {
+    this.micComId = micComId;
   }
 
-  public BusinessType getBusinessType() {
-    return businessType;
+  public String getRelatedBill1() {
+    return relatedBill1;
   }
 
-  public void setBusinessType(BusinessType businessType) {
-    this.businessType = businessType;
+  public void setRelatedBill1(String relatedBill1) {
+    this.relatedBill1 = relatedBill1;
   }
 
-  public List<Integer> getCargoCountIds() {
-    return cargoCountIds;
+  public String getRemark() {
+    return remark;
   }
 
-  public void setCargoCountIds(List<Integer> cargoCountIds) {
-    this.cargoCountIds = cargoCountIds;
+  public void setRemark(String remark) {
+    this.remark = remark;
   }
 
-  public String getCompanyCode() {
-    return companyCode;
+  public String getType() {
+    return type;
   }
 
-  public void setCompanyCode(String companyCode) {
-    this.companyCode = companyCode;
+  public void setType(String type) {
+    this.type = type;
   }
 
-  public List<Integer> getDetailSnapIds() {
-    return detailSnapIds;
+  public String getWarehouseCode() {
+    return warehouseCode;
   }
 
-  public void setDetailSnapIds(List<Integer> detailSnapIds) {
-    this.detailSnapIds = detailSnapIds;
-  }
-
-  public LocalDate getEstimateDate() {
-    return estimateDate;
-  }
-
-  public void setEstimateDate(LocalDate estimateDate) {
-    this.estimateDate = estimateDate;
+  public void setWarehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
   }
 
   public Integer getExpectedQuantityBU() {
@@ -95,20 +88,20 @@ public class AsnOrder {
     this.micAsnOrderNo = micAsnOrderNo;
   }
 
-  public Integer getMicComId() {
-    return micComId;
+  public String getBillTypeCode() {
+    return billTypeCode;
   }
 
-  public void setMicComId(Integer micComId) {
-    this.micComId = micComId;
+  public void setBillTypeCode(String billTypeCode) {
+    this.billTypeCode = billTypeCode;
   }
 
-  public Integer getMicVersion() {
-    return micVersion;
+  public LocalDate getEstimateDate() {
+    return estimateDate;
   }
 
-  public void setMicVersion(Integer micVersion) {
-    this.micVersion = micVersion;
+  public void setEstimateDate(LocalDate estimateDate) {
+    this.estimateDate = estimateDate;
   }
 
   public Date getOrderDate() {
@@ -119,20 +112,29 @@ public class AsnOrder {
     this.orderDate = orderDate;
   }
 
-  public List<AsnCargo> getReceiptListDetails() {
+  public BusinessType getBusinessType() {
+    return businessType;
+  }
+
+  public void setBusinessType(BusinessType businessType) {
+    this.businessType = businessType;
+  }
+
+  public String getCompanyCode() {
+    return companyCode;
+  }
+
+  public void setCompanyCode(String companyCode) {
+    this.companyCode = companyCode;
+  }
+
+  public List<ReceiptListDetail> getReceiptListDetails() {
     return receiptListDetails;
   }
 
-  public void setReceiptListDetails(List<AsnCargo> receiptListDetails) {
+  public void setReceiptListDetails(
+      List<ReceiptListDetail> receiptListDetails) {
     this.receiptListDetails = receiptListDetails;
-  }
-
-  public String getRelatedBill1() {
-    return relatedBill1;
-  }
-
-  public void setRelatedBill1(String relatedBill1) {
-    this.relatedBill1 = relatedBill1;
   }
 
   public Integer getResultType() {
@@ -143,19 +145,11 @@ public class AsnOrder {
     this.resultType = resultType;
   }
 
-  public String getType() {
-    return type;
+  public Integer getMicVersion() {
+    return micVersion;
   }
 
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public String getWarehouseCode() {
-    return warehouseCode;
-  }
-
-  public void setWarehouseCode(String warehouseCode) {
-    this.warehouseCode = warehouseCode;
+  public void setMicVersion(Integer micVersion) {
+    this.micVersion = micVersion;
   }
 }

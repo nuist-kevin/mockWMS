@@ -43,7 +43,8 @@ public class PutAwayFinishMsg extends BaseMsg {
     return transitReceiptPostDetails;
   }
 
-  public void setTransitReceiptPostDetails(List<TransitReceiptPostDetail> transitReceiptPostDetails) {
+  public void setTransitReceiptPostDetails(
+      List<TransitReceiptPostDetail> transitReceiptPostDetails) {
     this.transitReceiptPostDetails = transitReceiptPostDetails;
   }
 }

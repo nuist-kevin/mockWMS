@@ -8,7 +8,7 @@ import java.time.LocalDate;
  */
 public class TransitReceiptPostDetail {
 
-  private Integer cargoId;
+  private Long cargoId;
   private BigDecimal expectedQuantityBU;
   private Integer inventoryStatus;
   private String itemCode;
@@ -26,11 +26,11 @@ public class TransitReceiptPostDetail {
     this.productDate = productDate;
   }
 
-  public Integer getCargoId() {
+  public Long getCargoId() {
     return cargoId;
   }
 
-  public void setCargoId(Integer cargoId) {
+  public void setCargoId(Long cargoId) {
     this.cargoId = cargoId;
   }
 

@@ -7,7 +7,7 @@ package com.focustech.mic.test.cb.entity;
 public class CommonConstant {
 
   public static final String OPERATOR_NAME = "AUTO_MESSAGE";
-  public static final Integer OPERATOR_NO = 99;
+  public static final Long OPERATOR_NO = 99L;
   public static final String WAREHOUSE_CODE = "FTUSCA001";
 
   public static final String BILL_TYPE_CODE_ASN = "11";

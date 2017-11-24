@@ -53,20 +53,23 @@ public class DoMsgSender {
     deliveryStatusMsg.setMicComId(deliveryOrder.getMicComId());
     deliveryStatusMsg.setRelatedBill1(deliveryOrder.getRelatedBill1());
     deliveryStatusMsg.setWmsDoCode(
-        "CAPO" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
+        "CAPO" + LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
     return deliveryStatusMsg;
 
   }
 
   public void sendSuiteForMessage(TextMessage message) throws IOException, JMSException {
     //发货单生效
-    DeliveryStatusMsg activatedMsg = buildMsgObjectFromMqMessage(message, DeliveryStatusMsg.ACTIVATED);
+    DeliveryStatusMsg activatedMsg = buildMsgObjectFromMqMessage(message,
+        DeliveryStatusMsg.ACTIVATED);
     String activatedMsgInJson = JSON.toJSONString(activatedMsg);
     logger.debug(activatedMsgInJson);
     jmsOperations.send(session -> session.createTextMessage(activatedMsgInJson));
 
     //拣货单完成
-    DeliveryStatusMsg workDocFinishedMsg = buildMsgObjectFromMqMessage(message, DeliveryStatusMsg.WORK_DOC_FINISHED);
+    DeliveryStatusMsg workDocFinishedMsg = buildMsgObjectFromMqMessage(message,
+        DeliveryStatusMsg.WORK_DOC_FINISHED);
     String workDocFinishedMsgInJson = JSON.toJSONString(workDocFinishedMsg);
     logger.debug(workDocFinishedMsgInJson);
     jmsOperations.send(session -> session.createTextMessage(workDocFinishedMsgInJson));
@@ -81,7 +84,8 @@ public class DoMsgSender {
     jmsOperations.send(session -> session.createTextMessage(deliveryPostMessage));
 
     //发货完成
-    DeliveryStatusMsg shipmentRegisteredMsg = buildMsgObjectFromMqMessage(message, DeliveryStatusMsg.SHIPMENT_REGISTERED);
+    DeliveryStatusMsg shipmentRegisteredMsg = buildMsgObjectFromMqMessage(message,
+        DeliveryStatusMsg.SHIPMENT_REGISTERED);
     String shipmentRegisteredMsgInJson = JSON.toJSONString(shipmentRegisteredMsg);
     logger.debug(shipmentRegisteredMsgInJson);
     jmsOperations.send(session -> session.createTextMessage(shipmentRegisteredMsgInJson));
@@ -90,18 +94,21 @@ public class DoMsgSender {
   public DeliveryPost build(DeliveryOrder deliveryOrder) {
     DeliveryPost deliveryPost = new DeliveryPost();
     deliveryPost.setBolCode(
-        "CAPT" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
+        "CAPT" + LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern(DateFormat.ISO_DATE_FORMAT_YYMMDDHHMMSS)));
     deliveryPost.setPickCode(deliveryPost.getBolCode());
     BeanUtils.copyProperties(deliveryOrder, deliveryPost, "businessType");
 
     List<PostingDetail> postingDetails = new ArrayList<>(
         deliveryOrder.getTransitDeliveryListDetails().size());
     for (int i = 0; i < deliveryOrder.getTransitDeliveryListDetails().size(); i++) {
-      TransitDeliveryListDetail transitDeliveryListDetail = deliveryOrder.getTransitDeliveryListDetails().get(i);
+      TransitDeliveryListDetail transitDeliveryListDetail = deliveryOrder
+          .getTransitDeliveryListDetails().get(i);
       PostingDetail postingDetail = new PostingDetail();
       BeanUtils.copyProperties(transitDeliveryListDetail, postingDetail);
       postingDetail
-          .setExpectedQuantityBU(BigDecimal.valueOf(Long.parseLong(transitDeliveryListDetail.getExpectedQuantity())));
+          .setExpectedQuantityBU(
+              BigDecimal.valueOf(Long.parseLong(transitDeliveryListDetail.getExpectedQuantity())));
       postingDetail.setShippedQuantityBU(postingDetail.getExpectedQuantityBU());
       postingDetail.setInventoryStatus(PostingDetail.WMS_INVENTORY_STATUS_NORMAL);
       SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author caiwen
  */
-public class ReceiptPostMsg extends BaseMsg{
+public class ReceiptPostMsg extends BaseMsg {
 
   private String asnCode;
   private BigDecimal expectedQuantityBU;
@@ -43,7 +43,8 @@ public class ReceiptPostMsg extends BaseMsg{
     return transitReceiptPostDetails;
   }
 
-  public void setTransitReceiptPostDetails(List<TransitReceiptPostDetail> transitReceiptPostDetails) {
+  public void setTransitReceiptPostDetails(
+      List<TransitReceiptPostDetail> transitReceiptPostDetails) {
     this.transitReceiptPostDetails = transitReceiptPostDetails;
   }
 }

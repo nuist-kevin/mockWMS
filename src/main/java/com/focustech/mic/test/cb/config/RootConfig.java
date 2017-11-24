@@ -30,7 +30,8 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ComponentScan(basePackages = "com.focustech.mic.test.cb",
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)})
+    excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)})
 @PropertySource("classpath:application.properties")
 public class RootConfig {
 
@@ -40,6 +41,7 @@ public class RootConfig {
   private String mqUsername;
   @Value("${mqPassword}")
   private String mqPassword;
+
   @Bean
   public ConnectionFactory connectionFactory() {
     ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();

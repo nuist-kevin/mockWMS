@@ -1,37 +1,37 @@
 {
-    "asnCode": "CANI170418160247306",
-    "businessType": "WMS2OSS_RECEIPTPOST",
-    "companyCode": "6024",
-    "expectedQuantityBU": 34.0,
-    "micComId": 606265204,
-    "operatorName": "liangbiao",
-    "operatorNo": 39,
-    "operatorTime": 1492503498000,
-    "receivedQuantityBU": 34.0,
-    "relatedBill1": "1052214",
-    "transitReceiptPostDetails": [
-        {
-            "cargoId": 6897294,
-            "expectedQuantityBU": 10.0,
-            "inventoryStatus": 1,
-            "itemCode": "c-code-170314102753",
-            "lotNo": "c-code-17031410275320170401",
-            "packageUnit": "Box",
-            "productDate": "2017-04-01",
-            "receivedQuantityBU": 10.0,
-            "storageDate": "2017-04-18"
-        },
-        {
-            "cargoId": 6897284,
-            "expectedQuantityBU": 24.0,
-            "inventoryStatus": 1,
-            "itemCode": "c-code-170314102747",
-            "lotNo": "c-code-17031410274720170402",
-            "packageUnit": "Box",
-            "productDate": "2017-04-02",
-            "receivedQuantityBU": 24.0,
-            "storageDate": "2017-04-18"
-        }
-    ],
-    "warehouseCode": "FTUSCA001"
+  "asnCode": "CANI170418160247306",
+  "businessType": "WMS2OSS_RECEIPTPOST",
+  "companyCode": "6024",
+  "expectedQuantityBU": 34.0,
+  "micComId": 606265204,
+  "operatorName": "liangbiao",
+  "operatorNo": 39,
+  "operatorTime": 1492503498000,
+  "receivedQuantityBU": 34.0,
+  "relatedBill1": "1052214",
+  "transitReceiptPostDetails": [
+    {
+      "cargoId": 6897294,
+      "expectedQuantityBU": 10.0,
+      "inventoryStatus": 1,
+      "itemCode": "c-code-170314102753",
+      "lotNo": "c-code-17031410275320170401",
+      "packageUnit": "Box",
+      "productDate": "2017-04-01",
+      "receivedQuantityBU": 10.0,
+      "storageDate": "2017-04-18"
+    },
+    {
+      "cargoId": 6897284,
+      "expectedQuantityBU": 24.0,
+      "inventoryStatus": 1,
+      "itemCode": "c-code-170314102747",
+      "lotNo": "c-code-17031410274720170402",
+      "packageUnit": "Box",
+      "productDate": "2017-04-02",
+      "receivedQuantityBU": 24.0,
+      "storageDate": "2017-04-18"
+    }
+  ],
+  "warehouseCode": "FTUSCA001"
 }

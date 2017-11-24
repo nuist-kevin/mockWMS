@@ -15,9 +15,9 @@ public class BaseMsg {
 
   private BusinessType businessType;
   private String companyCode;
-  private Integer micComId;
+  private Long micComId;
   private String operatorName = OPERATOR_NAME;
-  private Integer operatorNo = OPERATOR_NO;
+  private Long operatorNo = OPERATOR_NO;
   private Date operatorTime = new Date();
   private String relatedBill1;
   private String warehouseCode = WAREHOUSE_CODE;
@@ -38,11 +38,11 @@ public class BaseMsg {
     this.companyCode = companyCode;
   }
 
-  public Integer getMicComId() {
+  public Long getMicComId() {
     return micComId;
   }
 
-  public void setMicComId(Integer micComId) {
+  public void setMicComId(Long micComId) {
     this.micComId = micComId;
   }
 
@@ -54,11 +54,11 @@ public class BaseMsg {
     this.operatorName = operatorName;
   }
 
-  public Integer getOperatorNo() {
+  public Long getOperatorNo() {
     return operatorNo;
   }
 
-  public void setOperatorNo(Integer operatorNo) {
+  public void setOperatorNo(Long operatorNo) {
     this.operatorNo = operatorNo;
   }
 

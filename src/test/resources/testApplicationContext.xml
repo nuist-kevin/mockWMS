@@ -32,5 +32,4 @@
     p:brokerURL="vm://localhost?broker.persistent=false"/>
 
 
-
 </beans>

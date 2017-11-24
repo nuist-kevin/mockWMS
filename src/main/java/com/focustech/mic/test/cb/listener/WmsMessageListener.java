@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author caiwen
  */
 
-public class WmsMessageListener implements MessageListener{
+public class WmsMessageListener implements MessageListener {
 
   private final Logger logger = LoggerFactory.getLogger(WmsMessageListener.class);
 
