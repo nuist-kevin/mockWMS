@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.*;
 import java.io.IOException;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author caiwen
@@ -32,11 +33,17 @@ public class WmsMessageListener implements MessageListener {
   @Autowired
   private AsnMsgSender asnMsgSender;
 
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
+
   @Override
   public void onMessage(Message message) {
 
     if (message instanceof TextMessage) {
       try {
+        redisTemplate.opsForList().rightPush("messageIdList", message.getJMSMessageID());
+        redisTemplate.opsForValue()
+            .set(message.getJMSMessageID(), ((TextMessage) message).getText());
         // 发送一般消息响应
         confirmMsgSender.confirm(message);
 

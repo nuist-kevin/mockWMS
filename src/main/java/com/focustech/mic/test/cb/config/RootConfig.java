@@ -3,6 +3,7 @@ package com.focustech.mic.test.cb.config;
 import com.focustech.mic.test.cb.converter.JsonMessageConverter;
 import com.focustech.mic.test.cb.listener.WmsMessageListener;
 
+import javax.jms.Message;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -12,6 +13,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jms.core.JmsOperations;
 import org.springframework.jms.core.JmsTemplate;
@@ -41,13 +45,37 @@ public class RootConfig {
   private String mqUsername;
   @Value("${mqPassword}")
   private String mqPassword;
+  @Value("${redis.host}")
+  private String redisHost;
+  @Value("${redis.port}")
+  private int redisPort;
+
+  @Bean
+  public JedisConnectionFactory jedisConnectionFactory() {
+    JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+    jedisConnectionFactory.setHostName(redisHost);
+    jedisConnectionFactory.setPort(redisPort);
+    jedisConnectionFactory.setUsePool(true);
+    return jedisConnectionFactory;
+  }
+
+  @Bean
+  public RedisTemplate redisTemplate() {
+    RedisTemplate<String, String> redisTemplate = new StringRedisTemplate();
+    redisTemplate.setConnectionFactory(jedisConnectionFactory());
+    return redisTemplate;
+  }
 
   @Bean
   public ConnectionFactory connectionFactory() {
     ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-    connectionFactory.setBrokerURL(brokerUrl);
-    connectionFactory.setUserName(mqUsername);
-    connectionFactory.setPassword(mqPassword);
+    if (!"".equals(brokerUrl)) {
+      connectionFactory.setBrokerURL(brokerUrl);
+      connectionFactory.setUserName(mqUsername);
+      connectionFactory.setPassword(mqPassword);
+    } else {
+      connectionFactory.setBrokerURL("tcp://0.0.0.0:61616");
+    }
     return connectionFactory;
   }
 
@@ -58,8 +86,7 @@ public class RootConfig {
 
   @Bean
   public Destination wms2oss() {
-    ActiveMQQueue queue = new ActiveMQQueue("WMS2OSS");
-    return queue;
+    return new ActiveMQQueue("WMS2OSS");
   }
 
   @Bean
@@ -73,8 +100,7 @@ public class RootConfig {
 
   @Bean
   public Destination oss2wms() {
-    ActiveMQQueue queue = new ActiveMQQueue("OSS2WMS");
-    return queue;
+    return new ActiveMQQueue("OSS2WMS");
   }
 
   @Bean
