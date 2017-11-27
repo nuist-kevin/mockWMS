@@ -3,7 +3,6 @@ package com.focustech.mic.test.cb.config;
 import com.focustech.mic.test.cb.converter.JsonMessageConverter;
 import com.focustech.mic.test.cb.listener.WmsMessageListener;
 
-import javax.jms.Message;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -12,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -67,15 +67,18 @@ public class RootConfig {
   }
 
   @Bean
+  @Profile("home")
+  public ConnectionFactory homeConnectionFactory() {
+    return new ActiveMQConnectionFactory();
+  }
+
+  @Bean
+  @Profile("work")
   public ConnectionFactory connectionFactory() {
     ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-    if (!"".equals(brokerUrl)) {
-      connectionFactory.setBrokerURL(brokerUrl);
-      connectionFactory.setUserName(mqUsername);
-      connectionFactory.setPassword(mqPassword);
-    } else {
-      connectionFactory.setBrokerURL("tcp://0.0.0.0:61616");
-    }
+    connectionFactory.setBrokerURL(brokerUrl);
+    connectionFactory.setUserName(mqUsername);
+    connectionFactory.setPassword(mqPassword);
     return connectionFactory;
   }
 
@@ -109,9 +112,9 @@ public class RootConfig {
   }
 
   @Bean
-  public MessageListenerContainer jmsContainer() {
+  public MessageListenerContainer jmsContainer(ConnectionFactory connectionFactory) {
     DefaultMessageListenerContainer messageListenerContainer = new DefaultMessageListenerContainer();
-    messageListenerContainer.setConnectionFactory(connectionFactory());
+    messageListenerContainer.setConnectionFactory(connectionFactory);
     messageListenerContainer.setDestination(oss2wms());
     messageListenerContainer.setMessageListener(messageListener());
     messageListenerContainer.setMessageConverter(messageConverter());
@@ -119,6 +122,7 @@ public class RootConfig {
   }
 
   @Bean
+  @Profile("work")
   public DataSource dataSource() {
     BasicDataSource dataSource = new BasicDataSource();
     dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
@@ -129,9 +133,20 @@ public class RootConfig {
   }
 
   @Bean
-  public JdbcTemplate jdbcTemplate() {
+  @Profile("home")
+  public DataSource mysqlDataSource() {
+    BasicDataSource dataSource = new BasicDataSource();
+    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+    dataSource.setUrl("jdbc:mysql://localhost:3306/CBTEST");
+    dataSource.setUsername("test");
+    dataSource.setPassword("test1234");
+    return dataSource;
+  }
+
+  @Bean
+  public JdbcTemplate jdbcTemplate(DataSource dataSource) {
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
-    jdbcTemplate.setDataSource(dataSource());
+    jdbcTemplate.setDataSource(dataSource);
     return jdbcTemplate;
   }
 }
