@@ -21,7 +21,7 @@ public class HomeController implements ApplicationContextAware {
 
   private ApplicationContext applicationContext;
 
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/home", method = RequestMethod.GET)
   public String home(Model model) {
     model.addAttribute("queueNameSet",
         applicationContext.getParent().getBeansOfType(Destination.class).keySet());
