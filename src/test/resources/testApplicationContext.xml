@@ -21,7 +21,7 @@
 
 
   <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory"
-    p:brokerURL="tcp://192.168.43.22:61600" p:userName="mlan" p:password="mlan1234"/>
+    p:brokerURL="tcp://192.168.47.31:61600" p:userName="mlan" p:password="mlan1234"/>
 
   <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
     p:connectionFactory-ref="testConnectionFactory"

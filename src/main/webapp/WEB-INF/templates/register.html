@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>注册</title>
+  <link rel="stylesheet" href="/css/common/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/common/bulma.css">
+  <link rel="stylesheet" href="/css/common/jquery-ui.min.css">
+  <link rel="stylesheet" href="/css/common/jquery-ui.structure.min.css">
+  <link rel="stylesheet" href="/css/common/jquery-ui.theme.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar is-white" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <!-- navbar items -->
+          <a class="navbar-item">
+            Home
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" href="/documentation/overview/start/">
+              Docs
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a class="navbar-item" href="/documentation/overview/start/">
+                Overview
+              </a>
+              <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
+                Modifiers
+              </a>
+              <a class="navbar-item" href="https://bulma.io/documentation/columns/basics/">
+                Columns
+              </a>
+              <a class="navbar-item" href="https://bulma.io/documentation/layout/container/">
+                Layout
+              </a>
+              <a class="navbar-item" href="https://bulma.io/documentation/form/general/">
+                Form
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item" href="https://bulma.io/documentation/elements/box/">
+                Elements
+              </a>
+              <a class="navbar-item" href="https://bulma.io/documentation/components/breadcrumb/">
+                Components
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+        </div>
+        <div class="column">
+          <div class="box">
+            <h1 class="title has-text-centered">
+              Register
+            </h1>
+            <div class="field ">
+              <label class="label">Email</label>
+              <div class="control ">
+                <input class="input" maxlength="30" name="email" type="email" placeholder="Please input your email">
+                <!-- <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span> -->
+              </div>
+              <p class="help is-danger is-hidden"></p>
+            </div>
+            <div class="field ">
+              <label class="label">Username</label>
+              <div class="control ">
+                <input class="input" maxlength="30" name="username" placeholder="Please input your username">
+                <!-- <span class="icon is-small is-left">
+                  <i class="fa fa-user"></i>
+                </span> -->
+              </div>
+              <p class="help is-danger is-hidden"></p>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control ">
+                <input class="input " type="password" name='password' maxlength="30" placeholder="Please input your password">
+                <!-- <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span> -->
+              </div>
+              <p class="help is-danger is-hidden"></p>
+            </div>
+            <div class="field">
+              <label class="label">Confirm Password</label>
+              <div class="control ">
+                <input class="input " type="password" maxlength="30" placeholder="Please input your password again">
+                <!-- <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span> -->
+              </div>
+              <p class="help is-danger is-hidden"></p>
+            </div>
+            <div class="field">
+              <label class="label">Birthday</label>
+              <div class="control ">
+                <input class="input datepicker" maxlength="30" placeholder="Please input your birthday">
+                <!-- <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span> -->
+              </div>
+              <p class="help is-danger is-hidden"></p>
+            </div>
+            <div class="field">
+              <div class="control has-text-centered">
+                <button class="button is-info is-outlined">Register</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="text/javascript" src="/js/common/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/common/jquery-ui.min.js"></script>
+   
+  <script type="text/javascript">
+  $( function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd",
+      dayNamesMin: [ "日", "一", "二", "三", "四", "五", "六" ],
+      yearRange: "1949:2099",
+      gotoCurrent: true
+    });
+  } );
+    $(document).ready(function () {
+      $("input:not(.datepicker)").focusout(function () {
+        let wrongMessage = $(this).parent('div').next('p.is-danger');
+        if ($(this).val() === "") {
+          $(this).addClass("is-danger");
+          if (wrongMessage.hasClass("is-hidden")) {
+            wrongMessage.removeClass("is-hidden");
+          }
+          wrongMessage.text("Please input something");
+        } else {
+          $(this).removeClass("is-danger");
+          wrongMessage.addClass("is-hidden");
+        }
+      });
+      $("input[name='username']").focusout(function () {
+        let wrongMessage = $(this).parent('div').next('p.is-danger');
+        if ($(this).val() === "caiwen") {
+          $(this).addClass("is-danger");
+          wrongMessage.removeClass("is-hidden");
+          wrongMessage.text("你叫蔡文？？");
+        }
+        // $.post({
+        //   url: "/validateUserExists",
+        //   success: function (data) {
+        //     if (data === "fail") {
+        //       $(this).addClass("is-danger");
+        //       if ($(this).parent('div').next('p.is-danger').length === 0) {
+        //         $(this).parent().after('<p class="help is-danger">Please input something</p>');
+        //       }
+        //     }
+        //   }
+        // });
+      });
+      $("input[name='password']").focusout(function () {
+        let wrongMessage = $(this).parent('div').next('p.is-danger');
+        if (/(.)\1{5,}/.test($(this).val())) {
+          $(this).addClass("is-danger");
+          wrongMessage.removeClass("is-hidden");
+          wrongMessage.text("密码不可以是重复字符");
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
