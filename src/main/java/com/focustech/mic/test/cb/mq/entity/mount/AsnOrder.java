@@ -1,6 +1,6 @@
-package com.focustech.mic.test.cb.entity.mount;
+package com.focustech.mic.test.cb.mq.entity.mount;
 
-import com.focustech.mic.test.cb.entity.BusinessType;
+import com.focustech.mic.test.cb.mq.entity.BusinessType;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -17,13 +17,7 @@ public class AsnOrder {
   private String warehouseCode;
   private Integer expectedQuantityBU;
   private String micAsnOrderNo;
-
-//  private List<Integer> cargoCountIds;
-
   private String billTypeCode;
-
-//  private List<Integer> detailSnapIds;
-
   private LocalDate estimateDate;
   private Date orderDate;
   private BusinessType businessType;

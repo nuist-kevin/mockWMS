@@ -1,4 +1,4 @@
-package com.focustech.mic.test.cb.entity.wms.asn;
+package com.focustech.mic.test.cb.mq.entity.wms.asn;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

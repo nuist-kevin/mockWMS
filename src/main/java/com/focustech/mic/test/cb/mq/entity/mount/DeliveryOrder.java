@@ -1,6 +1,6 @@
-package com.focustech.mic.test.cb.entity.mount;
+package com.focustech.mic.test.cb.mq.entity.mount;
 
-import com.focustech.mic.test.cb.entity.BusinessType;
+import com.focustech.mic.test.cb.mq.entity.BusinessType;
 import java.util.Date;
 import java.util.List;
 

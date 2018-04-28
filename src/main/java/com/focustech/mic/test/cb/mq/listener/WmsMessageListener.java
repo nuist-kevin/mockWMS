@@ -1,11 +1,11 @@
-package com.focustech.mic.test.cb.listener;
+package com.focustech.mic.test.cb.mq.listener;
 
-import static com.focustech.mic.test.cb.entity.BusinessType.OSS2WMS_ASN;
-import static com.focustech.mic.test.cb.entity.BusinessType.OSS2WMS_DELLIST;
+import static com.focustech.mic.test.cb.mq.entity.BusinessType.OSS2WMS_ASN;
+import static com.focustech.mic.test.cb.mq.entity.BusinessType.OSS2WMS_DELLIST;
 
-import com.focustech.mic.test.cb.sender.AsnMsgSender;
-import com.focustech.mic.test.cb.sender.ConfirmMsgSender;
-import com.focustech.mic.test.cb.sender.DoMsgSender;
+import com.focustech.mic.test.cb.mq.sender.AsnMsgSender;
+import com.focustech.mic.test.cb.mq.sender.ConfirmMsgSender;
+import com.focustech.mic.test.cb.mq.sender.DoMsgSender;
 import com.jayway.jsonpath.JsonPath;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.*;
 import java.io.IOException;
-import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author caiwen
@@ -33,17 +32,11 @@ public class WmsMessageListener implements MessageListener {
   @Autowired
   private AsnMsgSender asnMsgSender;
 
-  @Autowired
-  private RedisTemplate<String, String> redisTemplate;
-
   @Override
   public void onMessage(Message message) {
 
     if (message instanceof TextMessage) {
       try {
-        redisTemplate.opsForList().rightPush("messageIdList", message.getJMSMessageID());
-        redisTemplate.opsForValue()
-            .set(message.getJMSMessageID(), ((TextMessage) message).getText());
         // 发送一般消息响应
         confirmMsgSender.confirm(message);
 
@@ -58,7 +51,7 @@ public class WmsMessageListener implements MessageListener {
 
         if (OSS2WMS_ASN.toString().equals(businessType)) {
           //响应入库单消息
-          asnMsgSender.sendAsnResponse((TextMessage) message);
+          asnMsgSender.sendAsnResponse((ActiveMQTextMessage) message);
         }
 
       } catch (JMSException e) {

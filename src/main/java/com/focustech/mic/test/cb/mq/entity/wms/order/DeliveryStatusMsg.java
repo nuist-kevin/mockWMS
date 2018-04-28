@@ -1,7 +1,7 @@
-package com.focustech.mic.test.cb.entity.wms.order;
+package com.focustech.mic.test.cb.mq.entity.wms.order;
 
-import com.focustech.mic.test.cb.entity.BusinessType;
-import com.focustech.mic.test.cb.entity.wms.BaseMsg;
+import com.focustech.mic.test.cb.mq.entity.BusinessType;
+import com.focustech.mic.test.cb.mq.entity.wms.BaseMsg;
 
 /**
  * @author caiwen

@@ -1,4 +1,4 @@
-package com.focustech.mic.test.cb.entity.wms.order;
+package com.focustech.mic.test.cb.mq.entity.wms.order;
 
 import java.math.BigDecimal;
 

@@ -1,13 +1,13 @@
-package com.focustech.mic.test.cb.sender;
+package com.focustech.mic.test.cb.mq.sender;
 
 import com.alibaba.fastjson.JSON;
 
 import com.focustech.mic.test.cb.entity.DateFormat;
-import com.focustech.mic.test.cb.entity.mount.DeliveryOrder;
-import com.focustech.mic.test.cb.entity.mount.TransitDeliveryListDetail;
-import com.focustech.mic.test.cb.entity.wms.order.PostingDetail;
-import com.focustech.mic.test.cb.entity.wms.order.DeliveryPost;
-import com.focustech.mic.test.cb.entity.wms.order.DeliveryStatusMsg;
+import com.focustech.mic.test.cb.mq.entity.mount.DeliveryOrder;
+import com.focustech.mic.test.cb.mq.entity.mount.TransitDeliveryListDetail;
+import com.focustech.mic.test.cb.mq.entity.wms.order.PostingDetail;
+import com.focustech.mic.test.cb.mq.entity.wms.order.DeliveryPost;
+import com.focustech.mic.test.cb.mq.entity.wms.order.DeliveryStatusMsg;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

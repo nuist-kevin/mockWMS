@@ -1,6 +1,6 @@
-package com.focustech.mic.test.cb.entity.wms.asn;
+package com.focustech.mic.test.cb.mq.entity.wms.asn;
 
-import com.focustech.mic.test.cb.entity.wms.BaseMsg;
+import com.focustech.mic.test.cb.mq.entity.wms.BaseMsg;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author caiwen
  */
-public class ReceiptPostMsg extends BaseMsg {
+public class PutAwayFinishMsg extends BaseMsg {
 
   private String asnCode;
   private BigDecimal expectedQuantityBU;

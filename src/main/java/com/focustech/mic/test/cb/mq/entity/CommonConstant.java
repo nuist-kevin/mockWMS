@@ -1,4 +1,4 @@
-package com.focustech.mic.test.cb.entity;
+package com.focustech.mic.test.cb.mq.entity;
 
 
 /**

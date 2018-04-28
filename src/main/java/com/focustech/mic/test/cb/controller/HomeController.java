@@ -1,9 +1,6 @@
 package com.focustech.mic.test.cb.controller;
 
-import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
-import org.apache.activemq.command.ActiveMQQueue;
-import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

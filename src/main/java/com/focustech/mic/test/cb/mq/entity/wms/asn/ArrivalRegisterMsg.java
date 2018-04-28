@@ -1,6 +1,6 @@
-package com.focustech.mic.test.cb.entity.wms.asn;
+package com.focustech.mic.test.cb.mq.entity.wms.asn;
 
-import com.focustech.mic.test.cb.entity.wms.BaseMsg;
+import com.focustech.mic.test.cb.mq.entity.wms.BaseMsg;
 
 import java.util.Date;
 

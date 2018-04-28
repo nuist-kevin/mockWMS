@@ -1,9 +1,7 @@
-package com.focustech.mic.test.cb.sender;
-
+package com.focustech.mic.test.cb.mq.sender;
 
 import com.alibaba.fastjson.JSON;
-
-import com.focustech.mic.test.cb.entity.wms.MsgConfirm;
+import com.focustech.mic.test.cb.mq.entity.wms.MsgConfirm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class ConfirmMsgSender {
   private JmsOperations jmsOperations;
 
   public void confirm(Message message) throws JMSException {
-    final MsgConfirm msgConfirm = new MsgConfirm();
+    MsgConfirm msgConfirm = new MsgConfirm();
     msgConfirm.setRecId(message.getStringProperty("recId"));
     final String jsonMsgConfirm = JSON.toJSONString(msgConfirm);
     logger.debug(jsonMsgConfirm);

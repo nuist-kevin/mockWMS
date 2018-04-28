@@ -1,12 +1,12 @@
-package com.focustech.mic.test.cb.sender;
+package com.focustech.mic.test.cb.mq.sender;
 
 import com.alibaba.fastjson.JSON;
-import com.focustech.mic.test.cb.entity.BusinessType;
-import com.focustech.mic.test.cb.entity.mount.AsnOrder;
-import com.focustech.mic.test.cb.entity.wms.asn.ArrivalRegisterMsg;
-import com.focustech.mic.test.cb.entity.wms.asn.PutAwayFinishMsg;
-import com.focustech.mic.test.cb.entity.wms.asn.ReceiptPostMsg;
-import com.focustech.mic.test.cb.entity.wms.asn.TransitReceiptPostDetail;
+import com.focustech.mic.test.cb.mq.entity.BusinessType;
+import com.focustech.mic.test.cb.mq.entity.mount.AsnOrder;
+import com.focustech.mic.test.cb.mq.entity.wms.asn.ArrivalRegisterMsg;
+import com.focustech.mic.test.cb.mq.entity.wms.asn.PutAwayFinishMsg;
+import com.focustech.mic.test.cb.mq.entity.wms.asn.ReceiptPostMsg;
+import com.focustech.mic.test.cb.mq.entity.wms.asn.TransitReceiptPostDetail;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +23,6 @@ import javax.jms.TextMessage;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,39 +40,32 @@ public class AsnMsgSender {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  private ArrivalRegisterMsg arrivalRegisterMsg;
-  private PutAwayFinishMsg putAwayFinishMsg;
-  private ReceiptPostMsg receiptPostMsg = new ReceiptPostMsg();
+  public void sendAsnResponse(TextMessage message) throws JMSException {
 
-  public void sendAsnResponse(TextMessage message) throws JMSException, IOException {
     AsnOrder asnOrder = JSON.parseObject(message.getText(), AsnOrder.class);
     arrivalRegister(asnOrder);
     putAwayPost(asnOrder);
-    receiptPost();
   }
 
-  public void arrivalRegister(AsnOrder asnOrder) throws IOException, JMSException {
-    arrivalRegisterMsg = new ArrivalRegisterMsg();
+  public void arrivalRegister(AsnOrder asnOrder) {
+    ArrivalRegisterMsg arrivalRegisterMsg = new ArrivalRegisterMsg();
     arrivalRegisterMsg.setBusinessType(BusinessType.WMS2OSS_ARRIVALREGISTER);
     arrivalRegisterMsg.setAsnCode(asnOrder.getMicAsnOrderNo());
     arrivalRegisterMsg.setRelatedBill1(asnOrder.getRelatedBill1());
     arrivalRegisterMsg.setCompanyCode(asnOrder.getCompanyCode());
     arrivalRegisterMsg.setMicComId(asnOrder.getMicComId());
-    logger.debug(arrivalRegisterMsg.toString());
     jmsOperations.convertAndSend(arrivalRegisterMsg);
   }
 
   public void putAwayPost(AsnOrder asnOrder) {
-    this.putAwayFinishMsg = new PutAwayFinishMsg();
-    this.putAwayFinishMsg.setBusinessType(BusinessType.WMS2OSS_PUTAWAYPOST);
-    this.putAwayFinishMsg.setAsnCode(asnOrder.getMicAsnOrderNo());
-    this.putAwayFinishMsg.setCompanyCode(asnOrder.getCompanyCode());
-    this.putAwayFinishMsg
-        .setExpectedQuantityBU(BigDecimal.valueOf(asnOrder.getExpectedQuantityBU()));
-    this.putAwayFinishMsg.setMicComId(asnOrder.getMicComId());
-    this.putAwayFinishMsg
-        .setReceivedQuantityBU(BigDecimal.valueOf(asnOrder.getExpectedQuantityBU()));
-    this.putAwayFinishMsg.setRelatedBill1(asnOrder.getRelatedBill1());
+    PutAwayFinishMsg putAwayFinishMsg = new PutAwayFinishMsg();
+    putAwayFinishMsg.setBusinessType(BusinessType.WMS2OSS_PUTAWAYPOST);
+    putAwayFinishMsg.setAsnCode(asnOrder.getMicAsnOrderNo());
+    putAwayFinishMsg.setCompanyCode(asnOrder.getCompanyCode());
+    putAwayFinishMsg.setExpectedQuantityBU(BigDecimal.valueOf(asnOrder.getExpectedQuantityBU()));
+    putAwayFinishMsg.setMicComId(asnOrder.getMicComId());
+    putAwayFinishMsg.setReceivedQuantityBU(BigDecimal.valueOf(asnOrder.getExpectedQuantityBU()));
+    putAwayFinishMsg.setRelatedBill1(asnOrder.getRelatedBill1());
     List<TransitReceiptPostDetail> transitReceiptPostDetails =
         new ArrayList<>(asnOrder.getReceiptListDetails().size());
     asnOrder.getReceiptListDetails().stream()
@@ -95,19 +86,20 @@ public class AsnMsgSender {
                   asnCargo.getCargoId());
           if (sqlRowSet.next()) {
             transitReceiptPostDetail.setLotNo(sqlRowSet.getString(1));
+          } else {
+            transitReceiptPostDetail.setLotNo(asnCargo.getItemCode());
           }
-//              transitReceiptPostDetail.setLotNo(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
           transitReceiptPostDetails.add(transitReceiptPostDetail);
         });
-    this.putAwayFinishMsg.setTransitReceiptPostDetails(transitReceiptPostDetails);
-    logger.debug(putAwayFinishMsg.toString());
-    jmsOperations.convertAndSend(this.putAwayFinishMsg);
+    putAwayFinishMsg.setTransitReceiptPostDetails(transitReceiptPostDetails);
+    jmsOperations.convertAndSend(putAwayFinishMsg);
+    receiptPost(putAwayFinishMsg);
   }
 
-  public void receiptPost() {
-    BeanUtils.copyProperties(this.putAwayFinishMsg, this.receiptPostMsg, "businessType");
-    this.receiptPostMsg.setBusinessType(BusinessType.WMS2OSS_RECEIPTPOST);
-    logger.debug(receiptPostMsg.toString());
-    jmsOperations.convertAndSend(this.receiptPostMsg);
+  public void receiptPost(PutAwayFinishMsg putAwayFinishMsg) {
+    ReceiptPostMsg receiptPostMsg= new ReceiptPostMsg();
+    BeanUtils.copyProperties(putAwayFinishMsg, receiptPostMsg, "businessType");
+    receiptPostMsg.setBusinessType(BusinessType.WMS2OSS_RECEIPTPOST);
+    jmsOperations.convertAndSend(receiptPostMsg);
   }
 }

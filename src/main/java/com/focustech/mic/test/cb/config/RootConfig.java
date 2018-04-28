@@ -1,8 +1,16 @@
 package com.focustech.mic.test.cb.config;
 
-import com.focustech.mic.test.cb.converter.JsonMessageConverter;
-import com.focustech.mic.test.cb.listener.WmsMessageListener;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.focustech.mic.test.cb.mq.listener.WmsMessageListener;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -13,15 +21,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jms.core.JmsOperations;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.listener.MessageListenerContainer;
-import org.springframework.jms.support.converter.MessageConverter;
+import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
+import org.springframework.jms.support.converter.MessageType;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.jms.ConnectionFactory;
@@ -45,26 +51,6 @@ public class RootConfig {
   private String mqUsername;
   @Value("${mqPassword}")
   private String mqPassword;
-  @Value("${redis.host}")
-  private String redisHost;
-  @Value("${redis.port}")
-  private int redisPort;
-
-  @Bean
-  public JedisConnectionFactory jedisConnectionFactory() {
-    JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-    jedisConnectionFactory.setHostName(redisHost);
-    jedisConnectionFactory.setPort(redisPort);
-    jedisConnectionFactory.setUsePool(true);
-    return jedisConnectionFactory;
-  }
-
-  @Bean
-  public RedisTemplate redisTemplate() {
-    RedisTemplate<String, String> redisTemplate = new StringRedisTemplate();
-    redisTemplate.setConnectionFactory(jedisConnectionFactory());
-    return redisTemplate;
-  }
 
   @Bean
   @Profile("home")
@@ -83,11 +69,6 @@ public class RootConfig {
   }
 
   @Bean
-  public MessageConverter messageConverter() {
-    return new JsonMessageConverter();
-  }
-
-  @Bean
   public Destination wms2oss() {
     return new ActiveMQQueue("WMS2OSS");
   }
@@ -97,7 +78,21 @@ public class RootConfig {
     JmsTemplate jmsTemplate = new JmsTemplate();
     jmsTemplate.setConnectionFactory(connectionFactory());
     jmsTemplate.setDefaultDestination(wms2oss());
-    jmsTemplate.setMessageConverter(messageConverter());
+    MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
+    ObjectMapper objectMapper = new ObjectMapper();
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+    objectMapper.registerModule(
+        new JavaTimeModule()
+            .addDeserializer(LocalDate.class, new LocalDateDeserializer(dateTimeFormatter))
+            .addSerializer(LocalDate.class, new LocalDateSerializer(dateTimeFormatter))
+    );
+    objectMapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    objectMapper.setSerializationInclusion(Include.NON_ABSENT);
+    messageConverter.setObjectMapper(objectMapper);
+    messageConverter.setTargetType(MessageType.TEXT);
+    jmsTemplate.setMessageConverter(messageConverter);
     return jmsTemplate;
   }
 
@@ -117,7 +112,7 @@ public class RootConfig {
     messageListenerContainer.setConnectionFactory(connectionFactory);
     messageListenerContainer.setDestination(oss2wms());
     messageListenerContainer.setMessageListener(messageListener());
-    messageListenerContainer.setMessageConverter(messageConverter());
+    messageListenerContainer.setSessionTransacted(true);
     return messageListenerContainer;
   }
 
@@ -149,4 +144,5 @@ public class RootConfig {
     jdbcTemplate.setDataSource(dataSource);
     return jdbcTemplate;
   }
+
 }

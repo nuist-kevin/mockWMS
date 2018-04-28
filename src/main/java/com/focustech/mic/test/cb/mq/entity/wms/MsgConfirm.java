@@ -1,9 +1,9 @@
-package com.focustech.mic.test.cb.entity.wms;
+package com.focustech.mic.test.cb.mq.entity.wms;
 
-import com.focustech.mic.test.cb.entity.BusinessType;
+import com.focustech.mic.test.cb.mq.entity.BusinessType;
 import java.util.Date;
 
-import static com.focustech.mic.test.cb.entity.BusinessType.WMS2OSS_MSG_CONFIRM;
+import static com.focustech.mic.test.cb.mq.entity.BusinessType.WMS2OSS_MSG_CONFIRM;
 
 /**
  * @author caiwen

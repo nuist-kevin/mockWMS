@@ -1,12 +1,12 @@
-package com.focustech.mic.test.cb.entity.wms;
+package com.focustech.mic.test.cb.mq.entity.wms;
 
-import com.focustech.mic.test.cb.entity.BusinessType;
+import com.focustech.mic.test.cb.mq.entity.BusinessType;
 
 import java.util.Date;
 
-import static com.focustech.mic.test.cb.entity.CommonConstant.OPERATOR_NAME;
-import static com.focustech.mic.test.cb.entity.CommonConstant.OPERATOR_NO;
-import static com.focustech.mic.test.cb.entity.CommonConstant.WAREHOUSE_CODE;
+import static com.focustech.mic.test.cb.mq.entity.CommonConstant.OPERATOR_NAME;
+import static com.focustech.mic.test.cb.mq.entity.CommonConstant.OPERATOR_NO;
+import static com.focustech.mic.test.cb.mq.entity.CommonConstant.WAREHOUSE_CODE;
 
 /**
  * @author caiwen

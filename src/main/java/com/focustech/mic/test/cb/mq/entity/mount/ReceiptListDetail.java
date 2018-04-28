@@ -1,7 +1,6 @@
-package com.focustech.mic.test.cb.entity.mount;
+package com.focustech.mic.test.cb.mq.entity.mount;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * @author caiwen

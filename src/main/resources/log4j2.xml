@@ -7,6 +7,9 @@
     <File name="common" fileName="${sys:user.home}/logs/mockWMS.log">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C Line:%L %logger - %msg%n"/>
     </File>
+    <File name="listener" fileName="${sys:user.home}/logs/listener.log">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C Line:%L %logger - %msg%n"/>
+    </File>
     <File name="doMsgSender" fileName="${sys:user.home}/logs/doMsgSender.log">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C Line:%L %logger - %msg%n"/>
     </File>
@@ -15,13 +18,19 @@
     </File>
   </Appenders>
   <Loggers>
-    <Logger name="com.focustech.mic.test.cb.sender.DoMsgSender" level="DEBUG">
+    <Logger name="com.focustech.mic.test.cb.mq.sender.DoMsgSender" level="DEBUG">
+      <AppenderRef ref="Console"/>
       <AppenderRef ref="doMsgSender"/>
     </Logger>
-    <Logger name="com.focustech.mic.test.cb.sender.AsnMsgSender" level="DEBUG">
-      <AppenderRef ref="doMsgSender"/>
+    <Logger name="com.focustech.mic.test.cb.mq.sender.AsnMsgSender" level="DEBUG">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="asnMsgSender"/>
     </Logger>
-    <Root level="DEBUG">
+    <Logger name="com.focustech.mic.test.cb.mq.listener.WmsMessageListener" level="DEBUG">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="listener"/>
+    </Logger>
+    <Root level="ERROR">
       <AppenderRef ref="common"/>
     </Root>
   </Loggers>

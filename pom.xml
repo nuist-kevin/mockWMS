@@ -40,6 +40,7 @@
     <maven-compiler.version>3.7.0</maven-compiler.version>
     <maven-resources.version>2.7</maven-resources.version>
     <activemq.version>5.7.0</activemq.version>
+    <jackson.version>2.9.4</jackson.version>
     <fastjson.version>1.2.31</fastjson.version>
     <jsonpath.version>2.2.0</jsonpath.version>
     <dbcp2.version>2.1.1</dbcp2.version>
@@ -47,8 +48,6 @@
     <slf4j.version>1.7.25</slf4j.version>
     <log4j2.version>2.9.1</log4j2.version>
     <servlet.version>3.1.0</servlet.version>
-    <jedis.version>2.9.0</jedis.version>
-    <spring-jedis.version>1.8.8.RELEASE</spring-jedis.version>
   </properties>
 
   <dependencyManagement>
@@ -173,14 +172,16 @@
 
   <dependencies>
     <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-redis</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc6</artifactId>
